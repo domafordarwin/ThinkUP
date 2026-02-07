@@ -2,16 +2,29 @@
   <h1 class="text-4xl font-bold mb-4">ThinkUp</h1>
   <p class="text-lg text-gray-600 mb-8">발문으로 키우는 사고력</p>
 
-  <% if user_signed_in? && current_user.student? %>
-    <% if @current_session %>
-      <%= link_to "이어서 학습하기", learning_session_path(@current_session),
-          class: "bg-blue-600 text-white px-8 py-3 rounded-lg text-lg" %>
+  <% if user_signed_in? %>
+    <% if current_user.student? %>
+      <% if @current_session %>
+        <%= link_to "이어서 학습하기", learning_session_path(@current_session),
+            class: "bg-blue-600 text-white px-8 py-3 rounded-lg text-lg inline-block mb-4" %>
+      <% else %>
+        <%= button_to "새 학습 시작", learning_sessions_path,
+            method: :post, class: "bg-blue-600 text-white px-8 py-3 rounded-lg text-lg mb-4" %>
+      <% end %>
+      <br>
+      <%= link_to "내 대시보드 보기", dashboard_path, class: "text-blue-600" %>
+    <% elsif current_user.school_admin? %>
+      <div class="space-y-4">
+        <%= link_to "구성원 관리", school_admin_members_path, class: "bg-blue-600 text-white px-8 py-3 rounded-lg text-lg block" %>
+        <%= link_to "프로그램 보기", school_admin_programs_path, class: "bg-purple-600 text-white px-8 py-3 rounded-lg text-lg block" %>
+      </div>
+    <% elsif current_user.parent? %>
+      <%= link_to "자녀 학습 현황 보기", parent_children_path, class: "bg-blue-600 text-white px-8 py-3 rounded-lg text-lg" %>
+    <% elsif current_user.developer? %>
+      <%= link_to "지문 관리", developer_passages_path, class: "bg-blue-600 text-white px-8 py-3 rounded-lg text-lg" %>
     <% else %>
-      <%= button_to "새 학습 시작", learning_sessions_path,
-          method: :post, class: "bg-blue-600 text-white px-8 py-3 rounded-lg text-lg" %>
+      <p class="text-gray-500">역할: <%= current_user.role %></p>
     <% end %>
-  <% elsif user_signed_in? %>
-    <p class="text-gray-500">역할: <%= current_user.role %></p>
   <% else %>
     <%= link_to "로그인", new_user_session_path, class: "bg-blue-600 text-white px-8 py-3 rounded-lg text-lg" %>
   <% end %>
