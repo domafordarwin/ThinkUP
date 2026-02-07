@@ -24,7 +24,24 @@
   </head>
 
   <body>
-    <main class="container mx-auto mt-28 px-5 flex">
+    <nav class="bg-white shadow px-6 py-3 flex justify-between items-center">
+      <%= link_to "ThinkUp", root_path, class: "text-xl font-bold" %>
+      <div>
+        <% if user_signed_in? %>
+          <span class="text-sm text-gray-500 mr-4"><%= current_user.name %> (<%= current_user.role %>)</span>
+          <%= button_to "로그아웃", destroy_user_session_path, method: :delete, class: "text-red-600 text-sm" %>
+        <% end %>
+      </div>
+    </nav>
+
+    <% if notice.present? %>
+      <div class="max-w-3xl mx-auto mt-4 p-3 bg-green-100 text-green-800 rounded"><%= notice %></div>
+    <% end %>
+    <% if alert.present? %>
+      <div class="max-w-3xl mx-auto mt-4 p-3 bg-red-100 text-red-800 rounded"><%= alert %></div>
+    <% end %>
+
+    <main class="container mx-auto mt-8 px-5">
       <%= yield %>
     </main>
   </body>
