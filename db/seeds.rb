@@ -54,4 +54,55 @@ if p2.base_questions.empty?
   ])
 end
 
-puts "Seed complete! Users: #{User.count}, Passages: #{Passage.count}, Questions: #{BaseQuestion.count}"
+puts "Creating schools..."
+school = School.find_or_create_by!(name: "서울 사고력 초등학교") do |s|
+  s.region = "서울"
+end
+
+puts "Creating school enrollments..."
+SchoolEnrollment.find_or_create_by!(school: school, user: student) do |e|
+  e.role_in_school = :student_member
+end
+
+school_admin_user = User.find_or_create_by!(email: "schooladmin@thinkup.kr") do |u|
+  u.name = "학교담당자"
+  u.password = "password123"
+  u.role = :school_admin
+end
+
+SchoolEnrollment.find_or_create_by!(school: school, user: school_admin_user) do |e|
+  e.role_in_school = :admin_member
+end
+
+parent_user = User.find_or_create_by!(email: "parent@thinkup.kr") do |u|
+  u.name = "김학부모"
+  u.password = "password123"
+  u.role = :parent
+end
+
+SchoolEnrollment.find_or_create_by!(school: school, user: parent_user) do |e|
+  e.role_in_school = :parent_member
+end
+
+ParentStudent.find_or_create_by!(parent: parent_user, student: student)
+
+puts "Creating programs..."
+program = Program.find_or_create_by!(name: "2026 1학기 사고력 프로그램") do |p|
+  p.description = "블룸의 택소노미 기반 사고력 증진 프로그램"
+  p.target_grade_min = 3
+  p.target_grade_max = 6
+  p.starts_on = Date.new(2026, 3, 1)
+  p.ends_on = Date.new(2026, 7, 31)
+end
+
+ProgramAssignment.find_or_create_by!(program: program, school: school)
+
+Passage.all.each_with_index do |passage, i|
+  ProgramPassage.find_or_create_by!(program: program, passage: passage) do |pp|
+    pp.position = i
+  end
+end
+
+puts "Seed complete!"
+puts "Users: #{User.count}, Schools: #{School.count}, Programs: #{Program.count}"
+puts "Enrollments: #{SchoolEnrollment.count}, Parent-Student: #{ParentStudent.count}"
