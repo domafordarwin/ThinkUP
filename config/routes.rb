@@ -18,6 +18,15 @@ Rails.application.routes.draw do
 
   resource :dashboard, only: [:show]
 
+  namespace :school_admin do
+    resources :members, only: [:index, :new, :create, :show, :destroy]
+    resources :programs, only: [:index, :show]
+  end
+
+  namespace :parent do
+    resources :children, only: [:index, :show]
+  end
+
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   get "up" => "rails/health#show", as: :rails_health_check
 

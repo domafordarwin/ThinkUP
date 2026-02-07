@@ -1,0 +1,42 @@
+<div class="max-w-2xl mx-auto p-6">
+  <h1 class="text-2xl font-bold mb-6">새 계정 생성</h1>
+
+  <%= form_with(model: @user, url: school_admin_members_path, class: "space-y-4") do |f| %>
+    <% if @user.errors.any? %>
+      <div class="bg-red-100 p-3 rounded text-red-700">
+        <% @user.errors.full_messages.each do |msg| %>
+          <p><%= msg %></p>
+        <% end %>
+      </div>
+    <% end %>
+
+    <div>
+      <%= f.label :name, "이름", class: "block font-medium" %>
+      <%= f.text_field :name, class: "w-full border rounded px-3 py-2" %>
+    </div>
+
+    <div>
+      <%= f.label :email, "이메일", class: "block font-medium" %>
+      <%= f.email_field :email, class: "w-full border rounded px-3 py-2" %>
+    </div>
+
+    <div>
+      <%= f.label :role, "역할", class: "block font-medium" %>
+      <%= f.select :role, [["학생", "student"], ["학부모", "parent"]], {}, class: "w-full border rounded px-3 py-2" %>
+    </div>
+
+    <div>
+      <%= f.label :grade_level, "학년 (학생만)", class: "block font-medium" %>
+      <%= f.number_field :grade_level, in: 1..12, class: "w-full border rounded px-3 py-2" %>
+    </div>
+
+    <div>
+      <label class="block font-medium">연결할 학생 (학부모인 경우)</label>
+      <%= select_tag :student_id,
+        options_from_collection_for_select(@school&.users&.where(role: :student) || [], :id, :name),
+        include_blank: "선택 안함", class: "w-full border rounded px-3 py-2" %>
+    </div>
+
+    <%= f.submit "계정 생성", class: "bg-blue-600 text-white px-6 py-2 rounded cursor-pointer" %>
+  <% end %>
+</div>
