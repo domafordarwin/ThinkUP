@@ -36,6 +36,32 @@ class ApplicationPolicy
     false
   end
 
+  private
+
+  def admin?
+    user.system_admin?
+  end
+
+  def developer?
+    user.developer?
+  end
+
+  def diagnosis_admin?
+    user.diagnosis_admin?
+  end
+
+  def school_admin?
+    user.school_admin?
+  end
+
+  def student?
+    user.student?
+  end
+
+  def parent?
+    user.parent?
+  end
+
   class Scope
     def initialize(user, scope)
       @user = user
