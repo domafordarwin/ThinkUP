@@ -2,6 +2,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  has_many :learning_sessions, dependent: :destroy
+
   enum :role, {
     student: 0,
     parent: 1,
