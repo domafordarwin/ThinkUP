@@ -10,7 +10,33 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_07_224617) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_07_224956) do
+  create_table "base_questions", force: :cascade do |t|
+    t.integer "bloom_level", default: 0, null: false
+    t.text "content", null: false
+    t.datetime "created_at", null: false
+    t.integer "passage_id", null: false
+    t.integer "position", default: 0, null: false
+    t.datetime "updated_at", null: false
+    t.index ["bloom_level"], name: "index_base_questions_on_bloom_level"
+    t.index ["passage_id"], name: "index_base_questions_on_passage_id"
+  end
+
+  create_table "passages", force: :cascade do |t|
+    t.text "content", null: false
+    t.datetime "created_at", null: false
+    t.integer "difficulty", default: 1, null: false
+    t.integer "genre", default: 0, null: false
+    t.integer "max_grade", null: false
+    t.integer "min_grade", null: false
+    t.string "subject_tags"
+    t.string "title", null: false
+    t.datetime "updated_at", null: false
+    t.index ["difficulty"], name: "index_passages_on_difficulty"
+    t.index ["genre"], name: "index_passages_on_genre"
+    t.index ["min_grade", "max_grade"], name: "index_passages_on_min_grade_and_max_grade"
+  end
+
   create_table "users", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "email", default: "", null: false
@@ -28,4 +54,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_07_224617) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["role"], name: "index_users_on_role"
   end
+
+  add_foreign_key "base_questions", "passages"
 end
