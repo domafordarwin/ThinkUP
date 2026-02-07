@@ -6,6 +6,12 @@ class User < ApplicationRecord
   has_many :school_enrollments, dependent: :destroy
   has_many :schools, through: :school_enrollments
 
+  has_many :parent_student_as_parent, class_name: "ParentStudent", foreign_key: :parent_id, dependent: :destroy
+  has_many :children, through: :parent_student_as_parent, source: :student
+
+  has_many :parent_student_as_student, class_name: "ParentStudent", foreign_key: :student_id, dependent: :destroy
+  has_many :parents_of_student, through: :parent_student_as_student, source: :parent
+
   enum :role, {
     student: 0,
     parent: 1,

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_07_231536) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_07_231733) do
   create_table "ai_dialogues", force: :cascade do |t|
     t.text "content", null: false
     t.datetime "created_at", null: false
@@ -42,6 +42,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_07_231536) do
     t.index ["passage_id"], name: "index_learning_sessions_on_passage_id"
     t.index ["user_id", "status"], name: "index_learning_sessions_on_user_id_and_status"
     t.index ["user_id"], name: "index_learning_sessions_on_user_id"
+  end
+
+  create_table "parent_students", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "parent_id", null: false
+    t.integer "student_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["parent_id", "student_id"], name: "index_parent_students_on_parent_id_and_student_id", unique: true
+    t.index ["parent_id"], name: "index_parent_students_on_parent_id"
+    t.index ["student_id"], name: "index_parent_students_on_student_id"
   end
 
   create_table "passages", force: :cascade do |t|
@@ -131,6 +141,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_07_231536) do
   add_foreign_key "base_questions", "passages"
   add_foreign_key "learning_sessions", "passages"
   add_foreign_key "learning_sessions", "users"
+  add_foreign_key "parent_students", "users", column: "parent_id"
+  add_foreign_key "parent_students", "users", column: "student_id"
   add_foreign_key "responses", "base_questions"
   add_foreign_key "responses", "learning_sessions"
   add_foreign_key "school_enrollments", "schools"
