@@ -3,6 +3,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_many :learning_sessions, dependent: :destroy
+  has_many :school_enrollments, dependent: :destroy
+  has_many :schools, through: :school_enrollments
 
   enum :role, {
     student: 0,

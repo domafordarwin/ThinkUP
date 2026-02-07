@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_07_225602) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_07_231536) do
   create_table "ai_dialogues", force: :cascade do |t|
     t.text "content", null: false
     t.datetime "created_at", null: false
@@ -69,6 +69,25 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_07_225602) do
     t.index ["learning_session_id"], name: "index_responses_on_learning_session_id"
   end
 
+  create_table "school_enrollments", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "role_in_school", default: 0, null: false
+    t.integer "school_id", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["school_id", "user_id"], name: "index_school_enrollments_on_school_id_and_user_id", unique: true
+    t.index ["school_id"], name: "index_school_enrollments_on_school_id"
+    t.index ["user_id"], name: "index_school_enrollments_on_user_id"
+  end
+
+  create_table "schools", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.string "region"
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_schools_on_name"
+  end
+
   create_table "session_summaries", force: :cascade do |t|
     t.json "bloom_distribution", default: {}
     t.json "competency_scores", default: {}
@@ -114,6 +133,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_07_225602) do
   add_foreign_key "learning_sessions", "users"
   add_foreign_key "responses", "base_questions"
   add_foreign_key "responses", "learning_sessions"
+  add_foreign_key "school_enrollments", "schools"
+  add_foreign_key "school_enrollments", "users"
   add_foreign_key "session_summaries", "learning_sessions"
   add_foreign_key "student_questions", "learning_sessions"
 end
