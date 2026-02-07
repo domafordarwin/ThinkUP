@@ -1,0 +1,31 @@
+<div class="max-w-3xl mx-auto p-6">
+  <div class="flex justify-between items-center mb-4">
+    <h1 class="text-2xl font-bold"><%= @passage.title %></h1>
+    <%= link_to "수정", edit_developer_passage_path(@passage), class: "text-blue-600" %>
+  </div>
+
+  <div class="text-sm text-gray-500 mb-4">
+    <span><%= @passage.genre %></span> |
+    <span>난이도 <%= @passage.difficulty %></span> |
+    <span>대상: <%= @passage.min_grade %>~<%= @passage.max_grade %>학년</span>
+    <% if @passage.subject_tags.present? %>
+      | <span>태그: <%= @passage.subject_tags %></span>
+    <% end %>
+  </div>
+
+  <div class="p-4 bg-gray-50 rounded-lg leading-relaxed whitespace-pre-wrap mb-6"><%= @passage.content %></div>
+
+  <h2 class="text-xl font-semibold mb-3">기초 질문 (<%= @passage.base_questions.count %>개)</h2>
+  <div class="space-y-2">
+    <% @passage.base_questions.each do |bq| %>
+      <div class="p-3 border rounded">
+        <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded"><%= bq.bloom_level %></span>
+        <span class="ml-2"><%= bq.content %></span>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="mt-4">
+    <%= link_to "목록으로", developer_passages_path, class: "text-gray-600" %>
+  </div>
+</div>

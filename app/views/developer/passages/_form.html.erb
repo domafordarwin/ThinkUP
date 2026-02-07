@@ -1,0 +1,48 @@
+<%= form_with(model: [:developer, passage], class: "space-y-4") do |f| %>
+  <% if passage.errors.any? %>
+    <div class="bg-red-100 p-3 rounded text-red-700">
+      <% passage.errors.full_messages.each do |msg| %>
+        <p><%= msg %></p>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div>
+    <%= f.label :title, "제목", class: "block font-medium" %>
+    <%= f.text_field :title, class: "w-full border rounded px-3 py-2" %>
+  </div>
+
+  <div>
+    <%= f.label :content, "본문", class: "block font-medium" %>
+    <%= f.text_area :content, rows: 10, class: "w-full border rounded px-3 py-2" %>
+  </div>
+
+  <div class="grid grid-cols-2 gap-4">
+    <div>
+      <%= f.label :genre, "장르", class: "block font-medium" %>
+      <%= f.select :genre, Passage.genres.keys.map { |g| [g, g] }, {}, class: "w-full border rounded px-3 py-2" %>
+    </div>
+    <div>
+      <%= f.label :difficulty, "난이도 (1-5)", class: "block font-medium" %>
+      <%= f.number_field :difficulty, in: 1..5, class: "w-full border rounded px-3 py-2" %>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-2 gap-4">
+    <div>
+      <%= f.label :min_grade, "최소 학년", class: "block font-medium" %>
+      <%= f.number_field :min_grade, in: 1..12, class: "w-full border rounded px-3 py-2" %>
+    </div>
+    <div>
+      <%= f.label :max_grade, "최대 학년", class: "block font-medium" %>
+      <%= f.number_field :max_grade, in: 1..12, class: "w-full border rounded px-3 py-2" %>
+    </div>
+  </div>
+
+  <div>
+    <%= f.label :subject_tags, "주제 태그 (쉼표 구분)", class: "block font-medium" %>
+    <%= f.text_field :subject_tags, class: "w-full border rounded px-3 py-2" %>
+  </div>
+
+  <%= f.submit "저장", class: "bg-blue-600 text-white px-6 py-2 rounded cursor-pointer" %>
+<% end %>
