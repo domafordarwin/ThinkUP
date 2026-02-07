@@ -1,0 +1,60 @@
+<div class="max-w-4xl mx-auto p-6">
+  <h1 class="text-2xl font-bold mb-2"><%= @child.name %>의 학습 현황</h1>
+  <p class="text-gray-500 mb-6"><%= @child.grade_level %>학년</p>
+
+  <%# 요약 카드 %>
+  <div class="grid grid-cols-3 gap-4 mb-8">
+    <div class="bg-blue-50 rounded-lg p-4 text-center">
+      <p class="text-3xl font-bold text-blue-600"><%= @stats[:total_sessions] %></p>
+      <p class="text-sm text-gray-600">완료한 학습</p>
+    </div>
+    <div class="bg-purple-50 rounded-lg p-4 text-center">
+      <p class="text-3xl font-bold text-purple-600"><%= @stats[:bloom_distribution].values.sum %></p>
+      <p class="text-sm text-gray-600">생성한 발문</p>
+    </div>
+    <div class="bg-green-50 rounded-lg p-4 text-center">
+      <% avg = @stats[:competency_averages].values %>
+      <p class="text-3xl font-bold text-green-600"><%= avg.any? ? (avg.sum / avg.size).round(1) : "-" %></p>
+      <p class="text-sm text-gray-600">평균 역량 점수</p>
+    </div>
+  </div>
+
+  <%# 역량 점수 %>
+  <section class="mb-8">
+    <h2 class="text-xl font-semibold mb-4">역량 점수</h2>
+    <% competency_labels = { "comprehension" => "이해력", "aesthetic" => "심미적 감수성", "communication" => "의사소통 능력" } %>
+    <div class="grid grid-cols-3 gap-4">
+      <% competency_labels.each do |key, label| %>
+        <div class="bg-white border rounded-lg p-4 text-center">
+          <p class="text-2xl font-bold text-blue-600"><%= @stats[:competency_averages][key] || "-" %></p>
+          <p class="text-sm text-gray-600 mt-1"><%= label %></p>
+        </div>
+      <% end %>
+    </div>
+  </section>
+
+  <%# 최근 학습 기록 %>
+  <section>
+    <h2 class="text-xl font-semibold mb-4">최근 학습 기록</h2>
+    <div class="space-y-3">
+      <% @sessions.each do |session| %>
+        <div class="border rounded-lg p-4">
+          <div class="flex justify-between">
+            <span class="font-medium"><%= session.passage.title %></span>
+            <span class="text-sm text-gray-500"><%= session.created_at.strftime("%Y-%m-%d") %></span>
+          </div>
+          <% if session.session_summary %>
+            <p class="text-sm text-gray-600 mt-1"><%= session.session_summary.summary %></p>
+            <% if session.session_summary.highlight_question.present? %>
+              <p class="text-sm italic text-purple-600 mt-1">"<%= session.session_summary.highlight_question %>"</p>
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </section>
+
+  <div class="mt-6">
+    <%= link_to "자녀 목록", parent_children_path, class: "text-gray-600" %>
+  </div>
+</div>
