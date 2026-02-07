@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_07_225203) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_07_225350) do
+  create_table "ai_dialogues", force: :cascade do |t|
+    t.text "content", null: false
+    t.datetime "created_at", null: false
+    t.integer "position", default: 0, null: false
+    t.integer "role", default: 0, null: false
+    t.integer "student_question_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["student_question_id"], name: "index_ai_dialogues_on_student_question_id"
+  end
+
   create_table "base_questions", force: :cascade do |t|
     t.integer "bloom_level", default: 0, null: false
     t.text "content", null: false
@@ -59,6 +69,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_07_225203) do
     t.index ["learning_session_id"], name: "index_responses_on_learning_session_id"
   end
 
+  create_table "student_questions", force: :cascade do |t|
+    t.integer "bloom_level", default: 0, null: false
+    t.text "content", null: false
+    t.datetime "created_at", null: false
+    t.integer "learning_session_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bloom_level"], name: "index_student_questions_on_bloom_level"
+    t.index ["learning_session_id"], name: "index_student_questions_on_learning_session_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "email", default: "", null: false
@@ -77,9 +97,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_07_225203) do
     t.index ["role"], name: "index_users_on_role"
   end
 
+  add_foreign_key "ai_dialogues", "student_questions"
   add_foreign_key "base_questions", "passages"
   add_foreign_key "learning_sessions", "passages"
   add_foreign_key "learning_sessions", "users"
   add_foreign_key "responses", "base_questions"
   add_foreign_key "responses", "learning_sessions"
+  add_foreign_key "student_questions", "learning_sessions"
 end
