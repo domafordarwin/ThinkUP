@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_07_231733) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_07_231919) do
   create_table "ai_dialogues", force: :cascade do |t|
     t.text "content", null: false
     t.datetime "created_at", null: false
@@ -67,6 +67,38 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_07_231733) do
     t.index ["difficulty"], name: "index_passages_on_difficulty"
     t.index ["genre"], name: "index_passages_on_genre"
     t.index ["min_grade", "max_grade"], name: "index_passages_on_min_grade_and_max_grade"
+  end
+
+  create_table "program_assignments", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "program_id", null: false
+    t.integer "school_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["program_id", "school_id"], name: "index_program_assignments_on_program_id_and_school_id", unique: true
+    t.index ["program_id"], name: "index_program_assignments_on_program_id"
+    t.index ["school_id"], name: "index_program_assignments_on_school_id"
+  end
+
+  create_table "program_passages", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "passage_id", null: false
+    t.integer "position", default: 0, null: false
+    t.integer "program_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["passage_id"], name: "index_program_passages_on_passage_id"
+    t.index ["program_id", "passage_id"], name: "index_program_passages_on_program_id_and_passage_id", unique: true
+    t.index ["program_id"], name: "index_program_passages_on_program_id"
+  end
+
+  create_table "programs", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.date "ends_on", null: false
+    t.string "name", null: false
+    t.date "starts_on", null: false
+    t.integer "target_grade_max", null: false
+    t.integer "target_grade_min", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "responses", force: :cascade do |t|
@@ -143,6 +175,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_07_231733) do
   add_foreign_key "learning_sessions", "users"
   add_foreign_key "parent_students", "users", column: "parent_id"
   add_foreign_key "parent_students", "users", column: "student_id"
+  add_foreign_key "program_assignments", "programs"
+  add_foreign_key "program_assignments", "schools"
+  add_foreign_key "program_passages", "passages"
+  add_foreign_key "program_passages", "programs"
   add_foreign_key "responses", "base_questions"
   add_foreign_key "responses", "learning_sessions"
   add_foreign_key "school_enrollments", "schools"
