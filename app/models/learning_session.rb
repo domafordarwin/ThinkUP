@@ -3,6 +3,7 @@ class LearningSession < ApplicationRecord
   belongs_to :passage
   has_many :responses, dependent: :destroy
   has_many :student_questions, dependent: :destroy
+  has_one :session_summary, dependent: :destroy
 
   enum :status, {
     in_progress: 0,

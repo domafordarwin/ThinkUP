@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_07_225350) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_07_225602) do
   create_table "ai_dialogues", force: :cascade do |t|
     t.text "content", null: false
     t.datetime "created_at", null: false
@@ -69,6 +69,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_07_225350) do
     t.index ["learning_session_id"], name: "index_responses_on_learning_session_id"
   end
 
+  create_table "session_summaries", force: :cascade do |t|
+    t.json "bloom_distribution", default: {}
+    t.json "competency_scores", default: {}
+    t.datetime "created_at", null: false
+    t.text "highlight_question"
+    t.integer "learning_session_id", null: false
+    t.text "summary", null: false
+    t.datetime "updated_at", null: false
+    t.index ["learning_session_id"], name: "index_session_summaries_on_learning_session_id"
+  end
+
   create_table "student_questions", force: :cascade do |t|
     t.integer "bloom_level", default: 0, null: false
     t.text "content", null: false
@@ -103,5 +114,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_07_225350) do
   add_foreign_key "learning_sessions", "users"
   add_foreign_key "responses", "base_questions"
   add_foreign_key "responses", "learning_sessions"
+  add_foreign_key "session_summaries", "learning_sessions"
   add_foreign_key "student_questions", "learning_sessions"
 end
