@@ -24,40 +24,77 @@
   </head>
 
   <body>
-    <nav class="bg-white shadow px-6 py-3 flex justify-between items-center">
-      <%= link_to "ThinkUp", root_path, class: "text-xl font-bold" %>
-      <div class="flex items-center gap-4">
+    <nav class="bg-white shadow px-4 sm:px-6 py-3" data-controller="menu">
+      <div class="flex justify-between items-center">
+        <%= link_to "ThinkUp", root_path, class: "text-xl font-bold" %>
         <% if user_signed_in? %>
-          <% if current_user.student? %>
-            <%= link_to "대시보드", dashboard_path, class: "text-sm text-gray-600" %>
-          <% elsif current_user.school_admin? %>
-            <%= link_to "구성원", school_admin_members_path, class: "text-sm text-gray-600" %>
-            <%= link_to "프로그램", school_admin_programs_path, class: "text-sm text-gray-600" %>
-          <% elsif current_user.parent? %>
-            <%= link_to "자녀 현황", parent_children_path, class: "text-sm text-gray-600" %>
-          <% elsif current_user.diagnosis_admin? %>
-            <%= link_to "대시보드", diagnosis_admin_dashboard_path, class: "text-sm text-gray-600" %>
-            <%= link_to "학교", diagnosis_admin_schools_path, class: "text-sm text-gray-600" %>
-            <%= link_to "프로그램", diagnosis_admin_programs_path, class: "text-sm text-gray-600" %>
-            <%= link_to "보고서", diagnosis_admin_reports_path, class: "text-sm text-gray-600" %>
-            <%= link_to "공지", diagnosis_admin_announcements_path, class: "text-sm text-gray-600" %>
-          <% elsif current_user.developer? %>
-            <%= link_to "지문 관리", developer_passages_path, class: "text-sm text-gray-600" %>
-          <% end %>
-          <span class="text-sm text-gray-500"><%= current_user.name %></span>
-          <%= button_to "로그아웃", destroy_user_session_path, method: :delete, class: "text-red-600 text-sm" %>
+          <button data-action="click->menu#toggle" class="sm:hidden p-2" type="button">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+          </button>
+          <div class="hidden sm:flex items-center gap-4">
+            <% if current_user.student? %>
+              <%= link_to "대시보드", dashboard_path, class: "text-sm text-gray-600" %>
+            <% elsif current_user.school_admin? %>
+              <%= link_to "구성원", school_admin_members_path, class: "text-sm text-gray-600" %>
+              <%= link_to "프로그램", school_admin_programs_path, class: "text-sm text-gray-600" %>
+            <% elsif current_user.parent? %>
+              <%= link_to "자녀 현황", parent_children_path, class: "text-sm text-gray-600" %>
+            <% elsif current_user.diagnosis_admin? %>
+              <%= link_to "대시보드", diagnosis_admin_dashboard_path, class: "text-sm text-gray-600" %>
+              <%= link_to "학교", diagnosis_admin_schools_path, class: "text-sm text-gray-600" %>
+              <%= link_to "프로그램", diagnosis_admin_programs_path, class: "text-sm text-gray-600" %>
+              <%= link_to "보고서", diagnosis_admin_reports_path, class: "text-sm text-gray-600" %>
+              <%= link_to "공지", diagnosis_admin_announcements_path, class: "text-sm text-gray-600" %>
+            <% elsif current_user.developer? %>
+              <%= link_to "지문 관리", developer_passages_path, class: "text-sm text-gray-600" %>
+            <% elsif current_user.system_admin? %>
+              <%= link_to "계정관리", system_admin_users_path, class: "text-sm text-gray-600" %>
+              <%= link_to "설정", system_admin_settings_path, class: "text-sm text-gray-600" %>
+            <% end %>
+            <span class="text-sm text-gray-500"><%= current_user.name %></span>
+            <%= button_to "로그아웃", destroy_user_session_path, method: :delete, class: "text-red-600 text-sm" %>
+          </div>
         <% end %>
       </div>
+      <% if user_signed_in? %>
+        <div class="hidden flex-col gap-2 pt-3 sm:hidden" data-menu-target="mobileNav">
+          <% if current_user.student? %>
+            <%= link_to "대시보드", dashboard_path, class: "block py-2 text-sm text-gray-600" %>
+          <% elsif current_user.school_admin? %>
+            <%= link_to "구성원", school_admin_members_path, class: "block py-2 text-sm text-gray-600" %>
+            <%= link_to "프로그램", school_admin_programs_path, class: "block py-2 text-sm text-gray-600" %>
+          <% elsif current_user.parent? %>
+            <%= link_to "자녀 현황", parent_children_path, class: "block py-2 text-sm text-gray-600" %>
+          <% elsif current_user.diagnosis_admin? %>
+            <%= link_to "대시보드", diagnosis_admin_dashboard_path, class: "block py-2 text-sm text-gray-600" %>
+            <%= link_to "학교", diagnosis_admin_schools_path, class: "block py-2 text-sm text-gray-600" %>
+            <%= link_to "프로그램", diagnosis_admin_programs_path, class: "block py-2 text-sm text-gray-600" %>
+            <%= link_to "보고서", diagnosis_admin_reports_path, class: "block py-2 text-sm text-gray-600" %>
+            <%= link_to "공지", diagnosis_admin_announcements_path, class: "block py-2 text-sm text-gray-600" %>
+          <% elsif current_user.developer? %>
+            <%= link_to "지문 관리", developer_passages_path, class: "block py-2 text-sm text-gray-600" %>
+          <% elsif current_user.system_admin? %>
+            <%= link_to "계정관리", system_admin_users_path, class: "block py-2 text-sm text-gray-600" %>
+            <%= link_to "설정", system_admin_settings_path, class: "block py-2 text-sm text-gray-600" %>
+          <% end %>
+          <div class="border-t pt-2 mt-1 flex items-center justify-between">
+            <span class="text-sm text-gray-500"><%= current_user.name %></span>
+            <%= button_to "로그아웃", destroy_user_session_path, method: :delete, class: "text-red-600 text-sm" %>
+          </div>
+        </div>
+      <% end %>
     </nav>
 
     <% if notice.present? %>
-      <div class="max-w-3xl mx-auto mt-4 p-3 bg-green-100 text-green-800 rounded"><%= notice %></div>
+      <div class="max-w-3xl mx-auto mt-4 px-4 sm:px-0"><div class="p-3 bg-green-100 text-green-800 rounded"><%= notice %></div></div>
     <% end %>
     <% if alert.present? %>
-      <div class="max-w-3xl mx-auto mt-4 p-3 bg-red-100 text-red-800 rounded"><%= alert %></div>
+      <div class="max-w-3xl mx-auto mt-4 px-4 sm:px-0"><div class="p-3 bg-red-100 text-red-800 rounded"><%= alert %></div></div>
     <% end %>
 
-    <main class="container mx-auto mt-8 px-5">
+    <main class="container mx-auto mt-6 sm:mt-8 px-4 sm:px-5">
       <%= yield %>
     </main>
   </body>

@@ -1,15 +1,15 @@
-<div class="max-w-2xl mx-auto p-6 text-center">
-  <h1 class="text-4xl font-bold mb-4">ThinkUp</h1>
-  <p class="text-lg text-gray-600 mb-8">발문으로 키우는 사고력</p>
+<div class="max-w-2xl mx-auto p-4 sm:p-6 text-center">
+  <h1 class="text-2xl sm:text-4xl font-bold mb-4">ThinkUp</h1>
+  <p class="text-base sm:text-lg text-gray-600 mb-8">발문으로 키우는 사고력</p>
 
   <% if user_signed_in? %>
     <% if current_user.student? %>
       <% if @current_session %>
         <%= link_to "이어서 학습하기", learning_session_path(@current_session),
-            class: "bg-blue-600 text-white px-8 py-3 rounded-lg text-lg inline-block mb-4" %>
+            class: "bg-blue-600 text-white px-6 sm:px-8 py-3 rounded-lg text-lg inline-block mb-4 w-full sm:w-auto" %>
       <% else %>
         <%= button_to "새 학습 시작", learning_sessions_path,
-            method: :post, class: "bg-blue-600 text-white px-8 py-3 rounded-lg text-lg mb-4" %>
+            method: :post, class: "bg-blue-600 text-white px-6 sm:px-8 py-3 rounded-lg text-lg mb-4 w-full sm:w-auto" %>
       <% end %>
       <br>
       <div class="flex justify-center gap-4 mt-2">
@@ -18,24 +18,27 @@
       </div>
     <% elsif current_user.school_admin? %>
       <div class="space-y-4">
-        <%= link_to "구성원 관리", school_admin_members_path, class: "bg-blue-600 text-white px-8 py-3 rounded-lg text-lg block" %>
-        <%= link_to "프로그램 보기", school_admin_programs_path, class: "bg-purple-600 text-white px-8 py-3 rounded-lg text-lg block" %>
+        <%= link_to "구성원 관리", school_admin_members_path, class: "bg-blue-600 text-white px-6 sm:px-8 py-3 rounded-lg text-lg block" %>
+        <%= link_to "프로그램 보기", school_admin_programs_path, class: "bg-purple-600 text-white px-6 sm:px-8 py-3 rounded-lg text-lg block" %>
       </div>
     <% elsif current_user.parent? %>
-      <%= link_to "자녀 학습 현황 보기", parent_children_path, class: "bg-blue-600 text-white px-8 py-3 rounded-lg text-lg" %>
+      <%= link_to "자녀 학습 현황 보기", parent_children_path, class: "bg-blue-600 text-white px-6 sm:px-8 py-3 rounded-lg text-lg block sm:inline-block" %>
     <% elsif current_user.diagnosis_admin? %>
       <div class="space-y-4">
-        <%= link_to "모니터링 대시보드", diagnosis_admin_dashboard_path, class: "bg-blue-600 text-white px-8 py-3 rounded-lg text-lg block" %>
-        <%= link_to "학교 관리", diagnosis_admin_schools_path, class: "bg-purple-600 text-white px-8 py-3 rounded-lg text-lg block" %>
-        <%= link_to "프로그램 관리", diagnosis_admin_programs_path, class: "bg-green-600 text-white px-8 py-3 rounded-lg text-lg block" %>
+        <%= link_to "모니터링 대시보드", diagnosis_admin_dashboard_path, class: "bg-blue-600 text-white px-6 sm:px-8 py-3 rounded-lg text-lg block" %>
+        <%= link_to "학교 관리", diagnosis_admin_schools_path, class: "bg-purple-600 text-white px-6 sm:px-8 py-3 rounded-lg text-lg block" %>
+        <%= link_to "프로그램 관리", diagnosis_admin_programs_path, class: "bg-green-600 text-white px-6 sm:px-8 py-3 rounded-lg text-lg block" %>
       </div>
     <% elsif current_user.developer? %>
-      <%= link_to "지문 관리", developer_passages_path, class: "bg-blue-600 text-white px-8 py-3 rounded-lg text-lg" %>
-    <% else %>
-      <p class="text-gray-500">역할: <%= current_user.role %></p>
+      <%= link_to "지문 관리", developer_passages_path, class: "bg-blue-600 text-white px-6 sm:px-8 py-3 rounded-lg text-lg block sm:inline-block" %>
+    <% elsif current_user.system_admin? %>
+      <div class="space-y-4">
+        <%= link_to "계정 관리", system_admin_users_path, class: "bg-blue-600 text-white px-6 sm:px-8 py-3 rounded-lg text-lg block" %>
+        <%= link_to "시스템 설정", system_admin_settings_path, class: "bg-purple-600 text-white px-6 sm:px-8 py-3 rounded-lg text-lg block" %>
+      </div>
     <% end %>
   <% else %>
-    <%= link_to "로그인", new_user_session_path, class: "bg-blue-600 text-white px-8 py-3 rounded-lg text-lg" %>
+    <%= link_to "로그인", new_user_session_path, class: "bg-blue-600 text-white px-6 sm:px-8 py-3 rounded-lg text-lg block sm:inline-block" %>
   <% end %>
 
   <% if @announcements.any? %>
@@ -43,7 +46,7 @@
       <h2 class="text-xl font-semibold mb-4">공지사항</h2>
       <div class="space-y-3">
         <% @announcements.each do |announcement| %>
-          <div class="border rounded-lg p-4">
+          <div class="border rounded-lg p-3 sm:p-4">
             <h3 class="font-medium"><%= announcement.title %></h3>
             <p class="text-sm text-gray-500"><%= announcement.published_at.strftime("%Y-%m-%d") %></p>
             <p class="text-sm text-gray-600 mt-1"><%= truncate(announcement.content, length: 100) %></p>

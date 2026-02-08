@@ -1,8 +1,8 @@
-<div class="max-w-4xl mx-auto p-6">
-  <h1 class="text-2xl font-bold mb-6">내 성장 대시보드</h1>
+<div class="max-w-4xl mx-auto p-4 sm:p-6">
+  <h1 class="text-xl sm:text-2xl font-bold mb-6">내 성장 대시보드</h1>
 
   <%# 요약 카드 %>
-  <div class="grid grid-cols-3 gap-4 mb-8">
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
     <div class="bg-blue-50 rounded-lg p-4 text-center">
       <p class="text-3xl font-bold text-blue-600"><%= @stats[:total_sessions] %></p>
       <p class="text-sm text-gray-600">완료한 학습</p>
@@ -20,7 +20,7 @@
 
   <%# 블룸 분포 %>
   <section class="mb-8">
-    <h2 class="text-xl font-semibold mb-4">발문 수준 분포 (블룸의 택소노미)</h2>
+    <h2 class="text-lg sm:text-xl font-semibold mb-4">발문 수준 분포 (블룸의 택소노미)</h2>
     <div class="bg-white border rounded-lg p-4">
       <% bloom_levels = %w[remember understand apply analyze evaluate create_level] %>
       <% bloom_labels = { "remember" => "기억", "understand" => "이해", "apply" => "적용", "analyze" => "분석", "evaluate" => "평가", "create_level" => "창조" } %>
@@ -29,8 +29,8 @@
         <% bloom_levels.each do |level| %>
           <% count = @stats[:bloom_distribution][level] || 0 %>
           <div class="flex items-center">
-            <span class="w-16 text-sm text-gray-600"><%= bloom_labels[level] %></span>
-            <div class="flex-1 mx-3">
+            <span class="w-12 sm:w-16 text-xs sm:text-sm text-gray-600"><%= bloom_labels[level] %></span>
+            <div class="flex-1 mx-2 sm:mx-3">
               <div class="bg-gray-200 rounded-full h-6">
                 <div class="bg-purple-500 rounded-full h-6 flex items-center justify-end pr-2"
                      style="width: <%= [(count.to_f / max_count * 100).round, 5].max %>%">
@@ -46,9 +46,9 @@
 
   <%# 역량 점수 %>
   <section class="mb-8">
-    <h2 class="text-xl font-semibold mb-4">3대 역량 점수</h2>
+    <h2 class="text-lg sm:text-xl font-semibold mb-4">3대 역량 점수</h2>
     <% competency_labels = { "comprehension" => "이해력", "aesthetic" => "심미적 감수성", "communication" => "의사소통 능력" } %>
-    <div class="grid grid-cols-3 gap-4">
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
       <% competency_labels.each do |key, label| %>
         <div class="bg-white border rounded-lg p-4 text-center">
           <p class="text-2xl font-bold text-blue-600">
@@ -67,22 +67,22 @@
   <%# 이번 주 하이라이트 %>
   <% if @stats[:highlight_question].present? %>
     <section class="mb-8">
-      <h2 class="text-xl font-semibold mb-4">이번 주 최고 발문</h2>
+      <h2 class="text-lg sm:text-xl font-semibold mb-4">이번 주 최고 발문</h2>
       <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded">
-        <p class="italic text-lg text-gray-800">"<%= @stats[:highlight_question] %>"</p>
+        <p class="italic text-base sm:text-lg text-gray-800">"<%= @stats[:highlight_question] %>"</p>
       </div>
     </section>
   <% end %>
 
   <%# 최근 학습 %>
   <section>
-    <h2 class="text-xl font-semibold mb-4">최근 학습 기록</h2>
+    <h2 class="text-lg sm:text-xl font-semibold mb-4">최근 학습 기록</h2>
     <div class="space-y-3">
       <% @stats[:recent_sessions].each do |session| %>
-        <div class="border rounded-lg p-4 flex justify-between items-center">
+        <div class="border rounded-lg p-3 sm:p-4 flex justify-between items-center">
           <div>
-            <p class="font-medium"><%= session.passage.title %></p>
-            <p class="text-sm text-gray-500"><%= session.created_at.strftime("%Y-%m-%d") %></p>
+            <p class="font-medium text-sm sm:text-base"><%= session.passage.title %></p>
+            <p class="text-xs sm:text-sm text-gray-500"><%= session.created_at.strftime("%Y-%m-%d") %></p>
           </div>
           <%= link_to "보기", learning_session_path(session), class: "text-blue-600 text-sm" %>
         </div>
