@@ -10,7 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_08_031644) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_08_031805) do
+  create_table "activity_reports", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.json "data", default: {}
+    t.integer "generated_by_id", null: false
+    t.date "period_end", null: false
+    t.date "period_start", null: false
+    t.integer "report_type", default: 0, null: false
+    t.integer "school_id"
+    t.datetime "updated_at", null: false
+    t.integer "user_id"
+    t.index ["generated_by_id"], name: "index_activity_reports_on_generated_by_id"
+    t.index ["school_id"], name: "index_activity_reports_on_school_id"
+    t.index ["user_id"], name: "index_activity_reports_on_user_id"
+  end
+
   create_table "ai_dialogues", force: :cascade do |t|
     t.text "content", null: false
     t.datetime "created_at", null: false
@@ -179,6 +194,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_08_031644) do
     t.index ["role"], name: "index_users_on_role"
   end
 
+  add_foreign_key "activity_reports", "schools"
+  add_foreign_key "activity_reports", "users"
+  add_foreign_key "activity_reports", "users", column: "generated_by_id"
   add_foreign_key "ai_dialogues", "student_questions"
   add_foreign_key "announcements", "users"
   add_foreign_key "base_questions", "passages"
