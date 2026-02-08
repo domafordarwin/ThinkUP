@@ -5,5 +5,6 @@ class PagesController < ApplicationController
     if user_signed_in? && current_user.student?
       @current_session = current_user.learning_sessions.where.not(status: :completed).last
     end
+    @announcements = Announcement.recent
   end
 end

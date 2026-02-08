@@ -20,6 +20,12 @@
       </div>
     <% elsif current_user.parent? %>
       <%= link_to "자녀 학습 현황 보기", parent_children_path, class: "bg-blue-600 text-white px-8 py-3 rounded-lg text-lg" %>
+    <% elsif current_user.diagnosis_admin? %>
+      <div class="space-y-4">
+        <%= link_to "모니터링 대시보드", diagnosis_admin_dashboard_path, class: "bg-blue-600 text-white px-8 py-3 rounded-lg text-lg block" %>
+        <%= link_to "학교 관리", diagnosis_admin_schools_path, class: "bg-purple-600 text-white px-8 py-3 rounded-lg text-lg block" %>
+        <%= link_to "프로그램 관리", diagnosis_admin_programs_path, class: "bg-green-600 text-white px-8 py-3 rounded-lg text-lg block" %>
+      </div>
     <% elsif current_user.developer? %>
       <%= link_to "지문 관리", developer_passages_path, class: "bg-blue-600 text-white px-8 py-3 rounded-lg text-lg" %>
     <% else %>
@@ -27,5 +33,20 @@
     <% end %>
   <% else %>
     <%= link_to "로그인", new_user_session_path, class: "bg-blue-600 text-white px-8 py-3 rounded-lg text-lg" %>
+  <% end %>
+
+  <% if @announcements.any? %>
+    <section class="mt-12 text-left">
+      <h2 class="text-xl font-semibold mb-4">공지사항</h2>
+      <div class="space-y-3">
+        <% @announcements.each do |announcement| %>
+          <div class="border rounded-lg p-4">
+            <h3 class="font-medium"><%= announcement.title %></h3>
+            <p class="text-sm text-gray-500"><%= announcement.published_at.strftime("%Y-%m-%d") %></p>
+            <p class="text-sm text-gray-600 mt-1"><%= truncate(announcement.content, length: 100) %></p>
+          </div>
+        <% end %>
+      </div>
+    </section>
   <% end %>
 </div>

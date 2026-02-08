@@ -1,0 +1,26 @@
+<%= form_with(model: [:diagnosis_admin, announcement], class: "space-y-4") do |f| %>
+  <% if announcement.errors.any? %>
+    <div class="bg-red-100 p-3 rounded text-red-700">
+      <% announcement.errors.full_messages.each do |msg| %>
+        <p><%= msg %></p>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div>
+    <%= f.label :title, "제목", class: "block font-medium" %>
+    <%= f.text_field :title, class: "w-full border rounded px-3 py-2" %>
+  </div>
+
+  <div>
+    <%= f.label :content, "내용", class: "block font-medium" %>
+    <%= f.text_area :content, rows: 8, class: "w-full border rounded px-3 py-2" %>
+  </div>
+
+  <div>
+    <%= f.label :published_at, "공개 일시 (비워두면 미공개)", class: "block font-medium" %>
+    <%= f.datetime_local_field :published_at, class: "w-full border rounded px-3 py-2" %>
+  </div>
+
+  <%= f.submit announcement.persisted? ? "수정" : "등록", class: "bg-blue-600 text-white px-6 py-2 rounded cursor-pointer" %>
+<% end %>
