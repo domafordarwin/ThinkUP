@@ -15,15 +15,8 @@
 
   <div class="p-4 bg-gray-50 rounded-lg leading-relaxed whitespace-pre-wrap mb-6"><%= @passage.content %></div>
 
-  <h2 class="text-xl font-semibold mb-3">기초 질문 (<%= @passage.base_questions.count %>개)</h2>
-  <div class="space-y-2">
-    <% @passage.base_questions.each do |bq| %>
-      <div class="p-3 border rounded">
-        <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded"><%= bq.bloom_level %></span>
-        <span class="ml-2"><%= bq.content %></span>
-      </div>
-    <% end %>
-  </div>
+  <h2 class="text-xl font-semibold mb-3">발문 흐름도 (<%= @passage.base_questions.count %>개)</h2>
+  <%= render "question_flow", passage: @passage %>
 
   <div class="mt-4">
     <%= link_to "목록으로", developer_passages_path, class: "text-gray-600" %>

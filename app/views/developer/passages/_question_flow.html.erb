@@ -1,0 +1,52 @@
+<%# 발문 흐름도: 블룸 수준별 시각화 %>
+<% bloom_config = {
+  "remember" => { label: "기억", color: "bg-blue-100 text-blue-800 border-blue-300", bar: "bg-blue-500" },
+  "understand" => { label: "이해", color: "bg-green-100 text-green-800 border-green-300", bar: "bg-green-500" },
+  "apply" => { label: "적용", color: "bg-yellow-100 text-yellow-800 border-yellow-300", bar: "bg-yellow-500" },
+  "analyze" => { label: "분석", color: "bg-orange-100 text-orange-800 border-orange-300", bar: "bg-orange-500" },
+  "evaluate" => { label: "평가", color: "bg-red-100 text-red-800 border-red-300", bar: "bg-red-500" },
+  "create_level" => { label: "창조", color: "bg-purple-100 text-purple-800 border-purple-300", bar: "bg-purple-500" }
+} %>
+
+<div class="mb-6">
+  <h3 class="text-lg font-semibold mb-3">블룸 수준 커버리지</h3>
+  <div class="flex gap-2 flex-wrap">
+    <% covered = passage.base_questions.pluck(:bloom_level).uniq %>
+    <% bloom_config.each do |level, config| %>
+      <span class="text-xs px-3 py-1 rounded-full border
+        <%= covered.include?(level) ? config[:color] : 'bg-gray-100 text-gray-400 border-gray-200' %>">
+        <%= config[:label] %>
+        <%= covered.include?(level) ? "✓" : "" %>
+      </span>
+    <% end %>
+  </div>
+  <p class="text-sm text-gray-500 mt-2">
+    커버리지: <%= covered.size %> / 3 (기초: 기억·이해·적용)
+  </p>
+</div>
+
+<div class="mb-6">
+  <h3 class="text-lg font-semibold mb-3">발문 흐름</h3>
+  <div class="space-y-3">
+    <% passage.base_questions.each_with_index do |bq, i| %>
+      <% config = bloom_config[bq.bloom_level] || bloom_config["remember"] %>
+      <div class="flex items-start gap-3">
+        <div class="flex flex-col items-center">
+          <div class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold <%= config[:bar] %> text-white">
+            <%= i + 1 %>
+          </div>
+          <% if i < passage.base_questions.count - 1 %>
+            <div class="w-0.5 h-6 bg-gray-300"></div>
+          <% end %>
+        </div>
+        <div class="flex-1 border rounded-lg p-3 <%= config[:color] %> border">
+          <div class="flex justify-between items-center mb-1">
+            <span class="text-xs font-semibold"><%= config[:label] %> 수준</span>
+            <span class="text-xs text-gray-500">순서 #<%= bq.position %></span>
+          </div>
+          <p class="text-sm"><%= bq.content %></p>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
