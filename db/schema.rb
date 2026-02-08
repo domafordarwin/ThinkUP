@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_08_033526) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_08_033836) do
   create_table "activity_reports", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.json "data", default: {}
@@ -82,16 +82,19 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_08_033526) do
   create_table "passages", force: :cascade do |t|
     t.text "content", null: false
     t.datetime "created_at", null: false
+    t.integer "created_by_id"
     t.integer "difficulty", default: 1, null: false
     t.integer "genre", default: 0, null: false
     t.integer "max_grade", null: false
     t.integer "min_grade", null: false
+    t.integer "source", default: 0, null: false
     t.string "subject_tags"
     t.string "title", null: false
     t.datetime "updated_at", null: false
     t.index ["difficulty"], name: "index_passages_on_difficulty"
     t.index ["genre"], name: "index_passages_on_genre"
     t.index ["min_grade", "max_grade"], name: "index_passages_on_min_grade_and_max_grade"
+    t.index ["source"], name: "index_passages_on_source"
   end
 
   create_table "program_assignments", force: :cascade do |t|
@@ -213,6 +216,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_08_033526) do
   add_foreign_key "learning_sessions", "users"
   add_foreign_key "parent_students", "users", column: "parent_id"
   add_foreign_key "parent_students", "users", column: "student_id"
+  add_foreign_key "passages", "users", column: "created_by_id"
   add_foreign_key "program_assignments", "programs"
   add_foreign_key "program_assignments", "schools"
   add_foreign_key "program_passages", "passages"

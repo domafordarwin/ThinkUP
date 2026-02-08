@@ -12,7 +12,10 @@
             method: :post, class: "bg-blue-600 text-white px-8 py-3 rounded-lg text-lg mb-4" %>
       <% end %>
       <br>
-      <%= link_to "내 대시보드 보기", dashboard_path, class: "text-blue-600" %>
+      <div class="flex justify-center gap-4 mt-2">
+        <%= link_to "내 대시보드 보기", dashboard_path, class: "text-blue-600" %>
+        <%= link_to "자유 지문 학습", new_free_passage_path, class: "text-green-600" %>
+      </div>
     <% elsif current_user.school_admin? %>
       <div class="space-y-4">
         <%= link_to "구성원 관리", school_admin_members_path, class: "bg-blue-600 text-white px-8 py-3 rounded-lg text-lg block" %>

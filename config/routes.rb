@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   end
 
   resource :dashboard, only: [:show]
+  resources :free_passages, only: [:new, :create]
 
   namespace :school_admin do
     resources :members, only: [:index, :new, :create, :show, :destroy]
