@@ -1,48 +1,54 @@
-<%= form_with(model: [:developer, passage], class: "space-y-4") do |f| %>
+<%= form_with(model: [:developer, passage], class: "space-y-5") do |f| %>
   <% if passage.errors.any? %>
-    <div class="bg-red-100 p-3 rounded text-red-700">
-      <% passage.errors.full_messages.each do |msg| %>
-        <p><%= msg %></p>
-      <% end %>
+    <div class="card-flat border-red-200 bg-red-50 p-4">
+      <p class="text-sm font-medium text-red-800 mb-2">입력 오류가 있습니다</p>
+      <ul class="list-disc list-inside text-sm text-red-600 space-y-1">
+        <% passage.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
     </div>
   <% end %>
 
   <div>
-    <%= f.label :title, "제목", class: "block font-medium" %>
-    <%= f.text_field :title, class: "w-full border rounded px-3 py-2" %>
+    <%= f.label :title, "제목", class: "block text-sm font-medium text-gray-700 mb-1.5" %>
+    <%= f.text_field :title, class: "input-field", placeholder: "지문 제목을 입력하세요" %>
   </div>
 
   <div>
-    <%= f.label :content, "본문", class: "block font-medium" %>
-    <%= f.text_area :content, rows: 10, class: "w-full border rounded px-3 py-2" %>
+    <%= f.label :content, "본문", class: "block text-sm font-medium text-gray-700 mb-1.5" %>
+    <%= f.text_area :content, rows: 10, class: "input-field", placeholder: "지문 본문을 입력하세요" %>
   </div>
 
-  <div class="grid grid-cols-2 gap-4">
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
     <div>
-      <%= f.label :genre, "장르", class: "block font-medium" %>
-      <%= f.select :genre, Passage.genres.keys.map { |g| [g, g] }, {}, class: "w-full border rounded px-3 py-2" %>
+      <%= f.label :genre, "장르", class: "block text-sm font-medium text-gray-700 mb-1.5" %>
+      <%= f.select :genre, Passage.genres.keys.map { |g| [g, g] }, {}, class: "input-field" %>
     </div>
     <div>
-      <%= f.label :difficulty, "난이도 (1-5)", class: "block font-medium" %>
-      <%= f.number_field :difficulty, in: 1..5, class: "w-full border rounded px-3 py-2" %>
+      <%= f.label :difficulty, "난이도 (1-5)", class: "block text-sm font-medium text-gray-700 mb-1.5" %>
+      <%= f.number_field :difficulty, in: 1..5, class: "input-field" %>
     </div>
   </div>
 
-  <div class="grid grid-cols-2 gap-4">
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
     <div>
-      <%= f.label :min_grade, "최소 학년", class: "block font-medium" %>
-      <%= f.number_field :min_grade, in: 1..12, class: "w-full border rounded px-3 py-2" %>
+      <%= f.label :min_grade, "최소 학년", class: "block text-sm font-medium text-gray-700 mb-1.5" %>
+      <%= f.number_field :min_grade, in: 1..12, class: "input-field" %>
     </div>
     <div>
-      <%= f.label :max_grade, "최대 학년", class: "block font-medium" %>
-      <%= f.number_field :max_grade, in: 1..12, class: "w-full border rounded px-3 py-2" %>
+      <%= f.label :max_grade, "최대 학년", class: "block text-sm font-medium text-gray-700 mb-1.5" %>
+      <%= f.number_field :max_grade, in: 1..12, class: "input-field" %>
     </div>
   </div>
 
   <div>
-    <%= f.label :subject_tags, "주제 태그 (쉼표 구분)", class: "block font-medium" %>
-    <%= f.text_field :subject_tags, class: "w-full border rounded px-3 py-2" %>
+    <%= f.label :subject_tags, "주제 태그 (쉼표 구분)", class: "block text-sm font-medium text-gray-700 mb-1.5" %>
+    <%= f.text_field :subject_tags, class: "input-field", placeholder: "예: 문학, 과학, 역사" %>
   </div>
 
-  <%= f.submit "저장", class: "bg-blue-600 text-white px-6 py-2 rounded cursor-pointer" %>
+  <div class="flex items-center gap-3 pt-2">
+    <%= f.submit "저장", class: "btn-primary btn-lg cursor-pointer" %>
+    <%= link_to "취소", developer_passages_path, class: "btn-secondary" %>
+  </div>
 <% end %>

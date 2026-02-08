@@ -1,41 +1,47 @@
-<div class="max-w-3xl mx-auto p-6">
-  <div class="flex justify-between items-center mb-6">
-    <h1 class="text-2xl font-bold"><%= @user.name %></h1>
-    <%= link_to "수정", edit_system_admin_user_path(@user), class: "text-blue-600" %>
+<div class="max-w-3xl mx-auto px-4 sm:px-6 py-8">
+  <div class="flex justify-between items-center mb-8">
+    <h1 class="page-title"><%= @user.name %></h1>
+    <%= link_to "수정", edit_system_admin_user_path(@user), class: "btn-secondary" %>
   </div>
 
-  <div class="bg-white rounded-lg shadow p-6 space-y-4">
-    <div>
-      <span class="text-sm text-gray-500">이메일</span>
-      <p><%= @user.email %></p>
-    </div>
-    <div>
-      <span class="text-sm text-gray-500">역할</span>
-      <p><span class="px-2 py-1 bg-gray-100 rounded text-sm"><%= @user.role %></span></p>
-    </div>
-    <% if @user.student? %>
-      <div>
-        <span class="text-sm text-gray-500">학년</span>
-        <p><%= @user.grade_level %>학년</p>
+  <div class="card-flat p-6">
+    <div class="space-y-5">
+      <div class="flex items-start justify-between py-3 border-b border-gray-50">
+        <span class="text-sm font-medium text-gray-500 w-32 shrink-0">이메일</span>
+        <p class="text-sm text-gray-900"><%= @user.email %></p>
       </div>
-      <div>
-        <span class="text-sm text-gray-500">사고력 수준</span>
-        <p><%= @user.thinking_level %>단계</p>
+      <div class="flex items-start justify-between py-3 border-b border-gray-50">
+        <span class="text-sm font-medium text-gray-500 w-32 shrink-0">역할</span>
+        <span class="badge bg-primary-50 text-primary-700"><%= @user.role %></span>
       </div>
-    <% end %>
-    <div>
-      <span class="text-sm text-gray-500">가입일</span>
-      <p><%= @user.created_at.strftime("%Y-%m-%d %H:%M") %></p>
+      <% if @user.student? %>
+        <div class="flex items-start justify-between py-3 border-b border-gray-50">
+          <span class="text-sm font-medium text-gray-500 w-32 shrink-0">학년</span>
+          <span class="badge bg-accent-50 text-accent-600"><%= @user.grade_level %>학년</span>
+        </div>
+        <div class="flex items-start justify-between py-3 border-b border-gray-50">
+          <span class="text-sm font-medium text-gray-500 w-32 shrink-0">사고력 수준</span>
+          <span class="badge bg-warm-50 text-warm-600"><%= @user.thinking_level %>단계</span>
+        </div>
+      <% end %>
+      <div class="flex items-start justify-between py-3 border-b border-gray-50">
+        <span class="text-sm font-medium text-gray-500 w-32 shrink-0">가입일</span>
+        <p class="text-sm text-gray-900"><%= @user.created_at.strftime("%Y-%m-%d %H:%M") %></p>
+      </div>
+      <% if @user.schools.any? %>
+        <div class="flex items-start justify-between py-3">
+          <span class="text-sm font-medium text-gray-500 w-32 shrink-0">소속 학교</span>
+          <div class="flex flex-wrap gap-2">
+            <% @user.schools.each do |school| %>
+              <span class="badge bg-primary-50 text-primary-700"><%= school.name %></span>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
     </div>
-    <% if @user.schools.any? %>
-      <div>
-        <span class="text-sm text-gray-500">소속 학교</span>
-        <p><%= @user.schools.map(&:name).join(", ") %></p>
-      </div>
-    <% end %>
   </div>
 
-  <div class="mt-4">
-    <%= link_to "목록으로", system_admin_users_path, class: "text-gray-600" %>
+  <div class="mt-6">
+    <%= link_to "목록으로", system_admin_users_path, class: "btn-secondary" %>
   </div>
 </div>

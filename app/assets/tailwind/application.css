@@ -1,1 +1,153 @@
 @import "tailwindcss";
+
+@theme {
+  --color-primary-50: oklch(0.97 0.02 260);
+  --color-primary-100: oklch(0.93 0.04 260);
+  --color-primary-200: oklch(0.87 0.08 260);
+  --color-primary-500: oklch(0.55 0.18 260);
+  --color-primary-600: oklch(0.48 0.2 260);
+  --color-primary-700: oklch(0.4 0.2 260);
+
+  --color-accent-50: oklch(0.97 0.02 165);
+  --color-accent-100: oklch(0.93 0.04 165);
+  --color-accent-500: oklch(0.6 0.16 165);
+  --color-accent-600: oklch(0.52 0.16 165);
+
+  --color-warm-50: oklch(0.97 0.01 80);
+  --color-warm-100: oklch(0.94 0.03 80);
+  --color-warm-500: oklch(0.7 0.15 65);
+  --color-warm-600: oklch(0.6 0.15 55);
+}
+
+@layer base {
+  body {
+    font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: oklch(0.985 0.002 260);
+    color: oklch(0.25 0.02 260);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1.25rem;
+    background: linear-gradient(135deg, var(--color-primary-600), var(--color-primary-500));
+    color: white;
+    border-radius: 0.625rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px oklch(0 0 0 / 0.1), 0 1px 2px oklch(0 0 0 / 0.06);
+    cursor: pointer;
+  }
+  .btn-primary:hover {
+    box-shadow: 0 4px 12px oklch(0.48 0.2 260 / 0.3);
+    transform: translateY(-1px);
+  }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1.25rem;
+    background: white;
+    color: var(--color-primary-600);
+    border: 1px solid oklch(0.9 0.01 260);
+    border-radius: 0.625rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    cursor: pointer;
+  }
+  .btn-secondary:hover {
+    background: var(--color-primary-50);
+    border-color: var(--color-primary-200);
+  }
+
+  .btn-lg {
+    padding: 0.75rem 2rem;
+    font-size: 1rem;
+    border-radius: 0.75rem;
+  }
+
+  .card {
+    background: white;
+    border-radius: 1rem;
+    border: 1px solid oklch(0.93 0.005 260);
+    box-shadow: 0 1px 3px oklch(0 0 0 / 0.04), 0 1px 2px oklch(0 0 0 / 0.02);
+    transition: box-shadow 0.2s ease;
+  }
+  .card:hover {
+    box-shadow: 0 4px 16px oklch(0 0 0 / 0.06), 0 2px 4px oklch(0 0 0 / 0.03);
+  }
+
+  .card-flat {
+    background: white;
+    border-radius: 1rem;
+    border: 1px solid oklch(0.93 0.005 260);
+  }
+
+  .stat-card {
+    background: white;
+    border-radius: 1rem;
+    padding: 1.25rem;
+    text-align: center;
+    border: 1px solid oklch(0.93 0.005 260);
+    box-shadow: 0 1px 3px oklch(0 0 0 / 0.04);
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.125rem 0.625rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+  }
+
+  .input-field {
+    width: 100%;
+    padding: 0.625rem 0.875rem;
+    border: 1px solid oklch(0.9 0.01 260);
+    border-radius: 0.625rem;
+    font-size: 0.875rem;
+    background: white;
+    transition: all 0.2s ease;
+  }
+  .input-field:focus {
+    outline: none;
+    border-color: var(--color-primary-500);
+    box-shadow: 0 0 0 3px oklch(0.48 0.2 260 / 0.1);
+  }
+
+  .section-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: oklch(0.3 0.02 260);
+    letter-spacing: -0.01em;
+  }
+
+  .page-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: oklch(0.2 0.02 260);
+    letter-spacing: -0.02em;
+  }
+
+  .progress-bar {
+    height: 0.5rem;
+    border-radius: 9999px;
+    background: oklch(0.95 0.005 260);
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    border-radius: 9999px;
+    transition: width 0.5s ease;
+  }
+}

@@ -1,52 +1,52 @@
-<div class="max-w-4xl mx-auto p-6">
-  <h1 class="text-2xl font-bold mb-6">전체 모니터링 대시보드</h1>
+<div class="max-w-4xl mx-auto px-4 sm:px-6 py-8">
+  <h1 class="page-title mb-8">전체 모니터링 대시보드</h1>
 
   <%# 요약 카드 %>
-  <div class="grid grid-cols-3 gap-4 mb-8">
-    <div class="bg-blue-50 rounded-lg p-4 text-center">
-      <p class="text-3xl font-bold text-blue-600"><%= @total_schools %></p>
-      <p class="text-sm text-gray-600">등록 학교</p>
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+    <div class="stat-card border-t-4 border-primary-500">
+      <p class="text-3xl font-bold text-primary-600 mb-1"><%= @total_schools %></p>
+      <p class="text-sm text-gray-500">등록 학교</p>
     </div>
-    <div class="bg-green-50 rounded-lg p-4 text-center">
-      <p class="text-3xl font-bold text-green-600"><%= @total_students %></p>
-      <p class="text-sm text-gray-600">전체 학생</p>
+    <div class="stat-card border-t-4 border-accent-500">
+      <p class="text-3xl font-bold text-accent-600 mb-1"><%= @total_students %></p>
+      <p class="text-sm text-gray-500">전체 학생</p>
     </div>
-    <div class="bg-purple-50 rounded-lg p-4 text-center">
-      <p class="text-3xl font-bold text-purple-600"><%= @active_programs %></p>
-      <p class="text-sm text-gray-600">활성 프로그램</p>
+    <div class="stat-card border-t-4 border-warm-500">
+      <p class="text-3xl font-bold text-warm-600 mb-1"><%= @active_programs %></p>
+      <p class="text-sm text-gray-500">활성 프로그램</p>
     </div>
   </div>
 
-  <div class="grid grid-cols-3 gap-4 mb-8">
-    <div class="bg-yellow-50 rounded-lg p-4 text-center">
-      <p class="text-3xl font-bold text-yellow-600"><%= @monthly_sessions %></p>
-      <p class="text-sm text-gray-600">이번 달 완료 세션</p>
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
+    <div class="stat-card">
+      <p class="text-3xl font-bold text-primary-600 mb-1"><%= @monthly_sessions %></p>
+      <p class="text-sm text-gray-500">이번 달 완료 세션</p>
     </div>
-    <div class="bg-red-50 rounded-lg p-4 text-center">
-      <p class="text-3xl font-bold text-red-600"><%= @total_questions %></p>
-      <p class="text-sm text-gray-600">총 생성 발문</p>
+    <div class="stat-card">
+      <p class="text-3xl font-bold text-accent-600 mb-1"><%= @total_questions %></p>
+      <p class="text-sm text-gray-500">총 생성 발문</p>
     </div>
-    <div class="bg-indigo-50 rounded-lg p-4 text-center">
-      <p class="text-3xl font-bold text-indigo-600"><%= @total_parents %></p>
-      <p class="text-sm text-gray-600">전체 학부모</p>
+    <div class="stat-card">
+      <p class="text-3xl font-bold text-warm-600 mb-1"><%= @total_parents %></p>
+      <p class="text-sm text-gray-500">전체 학부모</p>
     </div>
   </div>
 
   <%# 학교별 현황 %>
   <section>
-    <h2 class="text-xl font-semibold mb-4">학교별 현황</h2>
+    <h2 class="section-title mb-5">학교별 현황</h2>
     <div class="space-y-3">
       <% @schools.each do |school| %>
-        <div class="border rounded-lg p-4 flex justify-between items-center">
+        <div class="card p-5 flex justify-between items-center">
           <div>
-            <h3 class="font-medium"><%= school.name %></h3>
-            <p class="text-sm text-gray-500">
-              <%= school.region %> |
-              학생 <%= school.school_enrollments.student_member.count %>명 |
-              프로그램 <%= school.programs.count %>개
-            </p>
+            <h3 class="font-semibold text-gray-900 mb-1.5"><%= school.name %></h3>
+            <div class="flex flex-wrap gap-2">
+              <span class="badge bg-primary-50 text-primary-700"><%= school.region %></span>
+              <span class="badge bg-accent-50 text-accent-600">학생 <%= school.school_enrollments.student_member.count %>명</span>
+              <span class="badge bg-warm-50 text-warm-600">프로그램 <%= school.programs.count %>개</span>
+            </div>
           </div>
-          <%= link_to "상세", diagnosis_admin_school_path(school), class: "text-blue-600 text-sm" %>
+          <%= link_to "상세", diagnosis_admin_school_path(school), class: "btn-secondary text-sm" %>
         </div>
       <% end %>
     </div>

@@ -1,21 +1,24 @@
-<div class="max-w-4xl mx-auto p-4 sm:p-6">
-  <div class="flex justify-between items-center mb-6">
-    <h1 class="text-xl sm:text-2xl font-bold">학교 관리</h1>
-    <%= link_to "학교 등록", new_diagnosis_admin_school_path, class: "bg-blue-600 text-white px-4 py-2 rounded text-sm" %>
+<div class="max-w-4xl mx-auto px-4 sm:px-6 py-8">
+  <div class="flex justify-between items-center mb-8">
+    <h1 class="page-title">학교 관리</h1>
+    <%= link_to new_diagnosis_admin_school_path, class: "btn-primary" do %>
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+      학교 등록
+    <% end %>
   </div>
 
   <div class="space-y-3">
     <% @schools.each do |school| %>
-      <div class="border rounded-lg p-3 sm:p-4 flex justify-between items-center">
+      <div class="card p-5 flex justify-between items-center">
         <div>
-          <h2 class="font-semibold text-base sm:text-lg"><%= school.name %></h2>
-          <p class="text-xs sm:text-sm text-gray-500">
-            <%= school.region %> |
-            학생 <%= school.school_enrollments.student_member.count %>명 |
-            프로그램 <%= school.programs.count %>개
-          </p>
+          <h2 class="font-semibold text-gray-900 mb-1.5"><%= school.name %></h2>
+          <div class="flex flex-wrap gap-2">
+            <span class="badge bg-primary-50 text-primary-700"><%= school.region %></span>
+            <span class="badge bg-accent-50 text-accent-600">학생 <%= school.school_enrollments.student_member.count %>명</span>
+            <span class="badge bg-warm-50 text-warm-600">프로그램 <%= school.programs.count %>개</span>
+          </div>
         </div>
-        <%= link_to "상세", diagnosis_admin_school_path(school), class: "text-blue-600 text-sm" %>
+        <%= link_to "상세", diagnosis_admin_school_path(school), class: "btn-secondary text-sm" %>
       </div>
     <% end %>
   </div>

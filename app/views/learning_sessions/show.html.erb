@@ -1,94 +1,144 @@
-<div class="max-w-3xl mx-auto p-4 sm:p-6">
-  <%# 지문 영역 %>
-  <section class="mb-8">
-    <h1 class="text-xl sm:text-2xl font-bold mb-2"><%= @passage.title %></h1>
-    <span class="text-sm text-gray-500"><%= @passage.genre %> | 난이도 <%= @passage.difficulty %></span>
-    <div class="mt-4 p-3 sm:p-4 bg-gray-50 rounded-lg leading-relaxed whitespace-pre-wrap text-sm sm:text-base"><%= @passage.content %></div>
-  </section>
-
-  <%# 기초 질문 응답 영역 %>
-  <section class="mb-8">
-    <h2 class="text-lg sm:text-xl font-semibold mb-4">기초 질문</h2>
-    <% @base_questions.each do |bq| %>
-      <div class="mb-4 p-3 sm:p-4 border rounded-lg">
-        <p class="font-medium mb-2 text-sm sm:text-base">
-          <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded"><%= bq.bloom_level %></span>
-          <%= bq.content %>
-        </p>
-        <% existing = @responses.find { |r| r.base_question_id == bq.id } %>
-        <% if existing %>
-          <p class="text-gray-700 bg-green-50 p-2 rounded text-sm sm:text-base"><%= existing.content %></p>
-        <% else %>
-          <%= form_with(model: [@session, Response.new], class: "mt-2") do |f| %>
-            <%= f.hidden_field :base_question_id, value: bq.id %>
-            <%= f.text_area :content, placeholder: "답변을 작성하세요...", rows: 2, class: "w-full border rounded px-3 py-2 text-sm sm:text-base" %>
-            <%= f.submit "답변 제출", class: "mt-2 bg-blue-600 text-white px-4 py-1 rounded text-sm cursor-pointer" %>
-          <% end %>
-        <% end %>
+<div class="max-w-3xl mx-auto">
+  <%# Passage section %>
+  <section class="mb-10">
+    <div class="mb-4">
+      <h1 class="page-title mb-2"><%= @passage.title %></h1>
+      <div class="flex items-center gap-2">
+        <span class="badge bg-primary-50 text-primary-600"><%= @passage.genre %></span>
+        <span class="badge bg-gray-100 text-gray-500">난이도 <%= @passage.difficulty %></span>
       </div>
-    <% end %>
+    </div>
+    <div class="card-flat p-5 sm:p-6 leading-relaxed whitespace-pre-wrap text-sm sm:text-base text-gray-700">
+      <%= @passage.content %>
+    </div>
   </section>
 
-  <%# 발문 생성 영역 (기초 질문 완료 후 표시) %>
-  <% if @session.base_completed? || @session.questioning? || @session.dialogue_active? || @session.completed? %>
-    <section class="mb-8">
-      <h2 class="text-lg sm:text-xl font-semibold mb-4">나만의 발문 만들기</h2>
-      <p class="text-gray-600 mb-3 text-sm sm:text-base">이 지문을 읽고 떠오르는 질문을 만들어보세요.</p>
-
-      <% @student_questions.each do |sq| %>
-        <div class="mb-4 p-3 sm:p-4 border-l-4 border-purple-400 bg-purple-50 rounded">
-          <p class="font-medium text-sm sm:text-base"><%= sq.content %></p>
-          <% if sq.bloom_level %>
-            <span class="text-xs bg-purple-200 text-purple-800 px-2 py-1 rounded">
-              블룸: <%= sq.bloom_level %>
-            </span>
-          <% end %>
-
-          <%# AI 심화 대화 %>
-          <% if sq.ai_dialogues.any? %>
-            <div class="mt-3 space-y-2" id="dialogue">
-              <% sq.ai_dialogues.each do |d| %>
-                <div class="<%= d.ai_prompt? ? 'bg-white' : 'bg-blue-50' %> p-2 rounded text-sm">
-                  <strong><%= d.ai_prompt? ? 'AI' : '나' %>:</strong> <%= d.content %>
-                </div>
-              <% end %>
+  <%# Base questions %>
+  <section class="mb-10">
+    <h2 class="section-title mb-5">기초 질문</h2>
+    <div class="space-y-4">
+      <% @base_questions.each do |bq| %>
+        <div class="card p-4 sm:p-5">
+          <div class="flex items-start gap-3 mb-3">
+            <% bloom_badge_colors = {
+              "remember" => "bg-gray-100 text-gray-600",
+              "understand" => "bg-blue-50 text-blue-600",
+              "apply" => "bg-cyan-50 text-cyan-600",
+              "analyze" => "bg-purple-50 text-purple-600",
+              "evaluate" => "bg-pink-50 text-pink-600",
+              "create_level" => "bg-rose-50 text-rose-600"
+            } %>
+            <span class="badge <%= bloom_badge_colors[bq.bloom_level] || 'bg-gray-100 text-gray-600' %> shrink-0"><%= bq.bloom_level %></span>
+            <p class="font-medium text-gray-800 text-sm sm:text-base"><%= bq.content %></p>
+          </div>
+          <% existing = @responses.find { |r| r.base_question_id == bq.id } %>
+          <% if existing %>
+            <div class="bg-accent-50 p-3 rounded-lg text-sm sm:text-base text-gray-700">
+              <%= existing.content %>
             </div>
-          <% end %>
-
-          <%# 대화 이어가기 %>
-          <% if sq.ai_dialogues.size < 6 %>
-            <%= form_with(url: learning_session_dialogues_path(@session), class: "mt-3") do |f| %>
-              <%= f.hidden_field "dialogue[student_question_id]", value: sq.id %>
-              <%= f.text_area "dialogue[content]", placeholder: "생각을 이어서 써보세요...", rows: 2, class: "w-full border rounded px-3 py-2 text-sm" %>
-              <%= f.submit "대화 이어가기", class: "mt-1 bg-purple-600 text-white px-4 py-1 rounded text-sm cursor-pointer" %>
+          <% else %>
+            <%= form_with(model: [@session, Response.new], class: "mt-2") do |f| %>
+              <%= f.hidden_field :base_question_id, value: bq.id %>
+              <%= f.text_area :content, placeholder: "답변을 작성하세요...", rows: 2, class: "input-field" %>
+              <div class="mt-2">
+                <%= f.submit "답변 제출", class: "btn-primary text-sm" %>
+              </div>
             <% end %>
           <% end %>
         </div>
       <% end %>
+    </div>
+  </section>
 
-      <%= form_with(model: [@session, StudentQuestion.new], class: "mt-4") do |f| %>
-        <%= f.text_area :content, placeholder: "새로운 질문을 만들어보세요...", rows: 2, class: "w-full border rounded px-3 py-2 text-sm sm:text-base" %>
-        <%= f.submit "발문 제출", class: "mt-2 bg-purple-600 text-white px-4 py-2 rounded cursor-pointer w-full sm:w-auto" %>
-      <% end %>
+  <%# Student questions (after base completed) %>
+  <% if @session.base_completed? || @session.questioning? || @session.dialogue_active? || @session.completed? %>
+    <section class="mb-10">
+      <h2 class="section-title mb-2">나만의 발문 만들기</h2>
+      <p class="text-sm text-gray-500 mb-5">이 지문을 읽고 떠오르는 질문을 만들어보세요.</p>
+
+      <div class="space-y-5">
+        <% @student_questions.each do |sq| %>
+          <div class="card-flat border-l-4 border-purple-400 p-4 sm:p-5 bg-purple-50/50">
+            <div class="flex items-start justify-between gap-3 mb-2">
+              <p class="font-medium text-gray-800 text-sm sm:text-base"><%= sq.content %></p>
+              <% if sq.bloom_level %>
+                <span class="badge bg-purple-100 text-purple-700 shrink-0">
+                  <%= sq.bloom_level %>
+                </span>
+              <% end %>
+            </div>
+
+            <%# AI dialogue - chat bubble style %>
+            <% if sq.ai_dialogues.any? %>
+              <div class="mt-4 space-y-2.5" id="dialogue">
+                <% sq.ai_dialogues.each do |d| %>
+                  <% if d.ai_prompt? %>
+                    <div class="flex items-start gap-2.5">
+                      <span class="shrink-0 w-7 h-7 rounded-full bg-gray-200 flex items-center justify-center text-xs font-medium text-gray-600">AI</span>
+                      <div class="bg-white border border-gray-100 rounded-xl rounded-tl-sm p-3 text-sm text-gray-700 max-w-[85%]">
+                        <%= d.content %>
+                      </div>
+                    </div>
+                  <% else %>
+                    <div class="flex items-start gap-2.5 justify-end">
+                      <div class="bg-primary-50 border border-primary-100 rounded-xl rounded-tr-sm p-3 text-sm text-gray-700 max-w-[85%]">
+                        <%= d.content %>
+                      </div>
+                      <span class="shrink-0 w-7 h-7 rounded-full bg-primary-100 flex items-center justify-center text-xs font-medium text-primary-600">나</span>
+                    </div>
+                  <% end %>
+                <% end %>
+              </div>
+            <% end %>
+
+            <%# Continue dialogue %>
+            <% if sq.ai_dialogues.size < 6 %>
+              <%= form_with(url: learning_session_dialogues_path(@session), class: "mt-4") do |f| %>
+                <%= f.hidden_field "dialogue[student_question_id]", value: sq.id %>
+                <%= f.text_area "dialogue[content]", placeholder: "생각을 이어서 써보세요...", rows: 2, class: "input-field" %>
+                <div class="mt-2">
+                  <%= f.submit "대화 이어가기", class: "btn-secondary text-sm" %>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+
+      <%# New question form %>
+      <div class="card-flat p-5 mt-6">
+        <%= form_with(model: [@session, StudentQuestion.new]) do |f| %>
+          <%= f.text_area :content, placeholder: "새로운 질문을 만들어보세요...", rows: 2, class: "input-field" %>
+          <div class="mt-3">
+            <%= f.submit "발문 제출", class: "btn-primary w-full sm:w-auto" %>
+          </div>
+        <% end %>
+      </div>
     </section>
   <% end %>
 
-  <%# 세션 완료 %>
+  <%# Complete session %>
   <% if @session.dialogue_active? && @student_questions.any? %>
-    <div class="text-center">
+    <div class="text-center py-4">
       <%= button_to "학습 완료하기", complete_learning_session_path(@session),
-          method: :post, class: "bg-green-600 text-white px-6 sm:px-8 py-3 rounded-lg text-lg w-full sm:w-auto" %>
+          method: :post, class: "btn-primary btn-lg w-full sm:w-auto" %>
     </div>
   <% end %>
 
-  <%# 세션 요약 %>
+  <%# Session summary %>
   <% if @session.completed? && @session.session_summary %>
-    <section class="mt-8 p-4 sm:p-6 bg-yellow-50 rounded-lg">
-      <h2 class="text-lg sm:text-xl font-semibold mb-3">학습 요약</h2>
-      <p class="mb-4 text-sm sm:text-base"><%= @session.session_summary.summary %></p>
-      <% if @session.session_summary.highlight_question.present? %>
-        <p class="italic text-purple-700 text-sm sm:text-base">"<%= @session.session_summary.highlight_question %>"</p>
-      <% end %>
+    <section class="mt-10">
+      <div class="card-flat p-6 sm:p-8 bg-warm-50">
+        <h2 class="section-title mb-4">학습 요약</h2>
+        <p class="text-sm sm:text-base text-gray-700 leading-relaxed mb-5"><%= @session.session_summary.summary %></p>
+        <% if @session.session_summary.highlight_question.present? %>
+          <div class="border-l-4 border-warm-500 pl-4">
+            <p class="italic text-primary-700 text-sm sm:text-base leading-relaxed">
+              "<%= @session.session_summary.highlight_question %>"
+            </p>
+          </div>
+        <% end %>
+      </div>
     </section>
   <% end %>
 </div>

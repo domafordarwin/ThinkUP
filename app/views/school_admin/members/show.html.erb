@@ -1,28 +1,37 @@
-<div class="max-w-3xl mx-auto p-6">
-  <h1 class="text-2xl font-bold mb-2"><%= @member.name %></h1>
-  <p class="text-gray-500 mb-6"><%= @member.email %> | <%= @member.role %></p>
+<div class="max-w-3xl mx-auto px-4 sm:px-6 py-8">
+  <h1 class="page-title mb-2"><%= @member.name %></h1>
+  <div class="flex flex-wrap gap-2 mb-8">
+    <span class="badge bg-primary-50 text-primary-700"><%= @member.email %></span>
+    <span class="badge bg-accent-50 text-accent-600"><%= @member.role %></span>
+  </div>
 
   <% if @member.student? && @sessions %>
-    <h2 class="text-xl font-semibold mb-4">학습 기록 (<%= @sessions.count %>회)</h2>
-    <div class="space-y-3">
-      <% @sessions.each do |session| %>
-        <div class="border rounded-lg p-4">
-          <div class="flex justify-between">
-            <span class="font-medium"><%= session.passage.title %></span>
-            <span class="text-sm text-gray-500"><%= session.created_at.strftime("%Y-%m-%d") %></span>
+    <section>
+      <h2 class="section-title mb-4">학습 기록 (<%= @sessions.count %>회)</h2>
+      <div class="space-y-3">
+        <% @sessions.each do |session| %>
+          <div class="card p-5">
+            <div class="flex justify-between items-center mb-2">
+              <span class="font-semibold text-gray-900"><%= session.passage.title %></span>
+              <span class="text-sm text-gray-400"><%= session.created_at.strftime("%Y-%m-%d") %></span>
+            </div>
+            <div class="mb-2">
+              <% if session.completed? %>
+                <span class="badge bg-accent-50 text-accent-600">완료</span>
+              <% else %>
+                <span class="badge bg-warm-50 text-warm-600"><%= session.status %></span>
+              <% end %>
+            </div>
+            <% if session.session_summary %>
+              <p class="text-sm text-gray-600 leading-relaxed"><%= session.session_summary.summary %></p>
+            <% end %>
           </div>
-          <span class="text-xs bg-<%= session.completed? ? 'green' : 'yellow' %>-100 px-2 py-1 rounded">
-            <%= session.status %>
-          </span>
-          <% if session.session_summary %>
-            <p class="text-sm text-gray-600 mt-2"><%= session.session_summary.summary %></p>
-          <% end %>
-        </div>
-      <% end %>
-    </div>
+        <% end %>
+      </div>
+    </section>
   <% end %>
 
-  <div class="mt-6">
-    <%= link_to "목록으로", school_admin_members_path, class: "text-gray-600" %>
+  <div class="mt-8">
+    <%= link_to "목록으로", school_admin_members_path, class: "btn-secondary" %>
   </div>
 </div>

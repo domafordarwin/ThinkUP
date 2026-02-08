@@ -1,24 +1,28 @@
-<div class="max-w-3xl mx-auto p-4 sm:p-6">
-  <div class="flex justify-between items-center mb-4">
-    <h1 class="text-2xl font-bold"><%= @passage.title %></h1>
-    <%= link_to "수정", edit_developer_passage_path(@passage), class: "text-blue-600" %>
+<div class="max-w-3xl mx-auto px-4 sm:px-6 py-8">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="page-title"><%= @passage.title %></h1>
+    <%= link_to "수정", edit_developer_passage_path(@passage), class: "btn-secondary" %>
   </div>
 
-  <div class="text-sm text-gray-500 mb-4">
-    <span><%= @passage.genre %></span> |
-    <span>난이도 <%= @passage.difficulty %></span> |
-    <span>대상: <%= @passage.min_grade %>~<%= @passage.max_grade %>학년</span>
+  <div class="flex flex-wrap gap-2 mb-6">
+    <span class="badge bg-primary-50 text-primary-700"><%= @passage.genre %></span>
+    <span class="badge bg-warm-50 text-warm-600">난이도 <%= @passage.difficulty %></span>
+    <span class="badge bg-accent-50 text-accent-600"><%= @passage.min_grade %>~<%= @passage.max_grade %>학년</span>
     <% if @passage.subject_tags.present? %>
-      | <span>태그: <%= @passage.subject_tags %></span>
+      <% @passage.subject_tags.split(",").each do |tag| %>
+        <span class="badge bg-primary-100 text-primary-600"><%= tag.strip %></span>
+      <% end %>
     <% end %>
   </div>
 
-  <div class="p-4 bg-gray-50 rounded-lg leading-relaxed whitespace-pre-wrap mb-6"><%= @passage.content %></div>
+  <div class="card-flat p-6 mb-8">
+    <div class="leading-relaxed whitespace-pre-wrap text-sm text-gray-700"><%= @passage.content %></div>
+  </div>
 
-  <h2 class="text-xl font-semibold mb-3">발문 흐름도 (<%= @passage.base_questions.count %>개)</h2>
+  <h2 class="section-title mb-4">발문 흐름도 (<%= @passage.base_questions.count %>개)</h2>
   <%= render "question_flow", passage: @passage %>
 
-  <div class="mt-4">
-    <%= link_to "목록으로", developer_passages_path, class: "text-gray-600" %>
+  <div class="mt-8">
+    <%= link_to "목록으로", developer_passages_path, class: "btn-secondary" %>
   </div>
 </div>
