@@ -11,7 +11,7 @@
   </h1>
   <div class="flex flex-wrap gap-2 mb-8">
     <span class="badge bg-primary-50 text-primary-700"><%= @report.period_start.strftime("%Y-%m-%d") %> ~ <%= @report.period_end.strftime("%Y-%m-%d") %></span>
-    <span class="badge bg-accent-50 text-accent-600">생성: <%= @report.generated_by.name %></span>
+    <span class="badge bg-sage-50 text-sage-600">생성: <%= @report.generated_by.name %></span>
   </div>
 
   <% data = @report.data %>
@@ -21,22 +21,22 @@
     <% if data["total_schools"] %>
       <div class="stat-card border-t-4 border-primary-500">
         <p class="text-3xl font-bold text-primary-600 mb-1"><%= data["total_schools"] %></p>
-        <p class="text-sm text-gray-500">학교</p>
+        <p class="text-sm text-ink-500">학교</p>
       </div>
     <% end %>
     <% if data["total_students"] %>
-      <div class="stat-card border-t-4 border-accent-500">
-        <p class="text-3xl font-bold text-accent-600 mb-1"><%= data["total_students"] %></p>
-        <p class="text-sm text-gray-500">학생</p>
+      <div class="stat-card border-t-4 border-sage-500">
+        <p class="text-3xl font-bold text-sage-600 mb-1"><%= data["total_students"] %></p>
+        <p class="text-sm text-ink-500">학생</p>
       </div>
     <% end %>
     <div class="stat-card border-t-4 border-warm-500">
       <p class="text-3xl font-bold text-warm-600 mb-1"><%= data["total_sessions"] || 0 %></p>
-      <p class="text-sm text-gray-500">완료 세션</p>
+      <p class="text-sm text-ink-500">완료 세션</p>
     </div>
     <div class="stat-card border-t-4 border-primary-200">
       <p class="text-3xl font-bold text-primary-600 mb-1"><%= data["questions_count"] || 0 %></p>
-      <p class="text-sm text-gray-500">생성 발문</p>
+      <p class="text-sm text-ink-500">생성 발문</p>
     </div>
   </div>
 
@@ -52,14 +52,14 @@
           <% bloom_labels.each do |level, label| %>
             <% count = data["bloom_distribution"][level] || 0 %>
             <div class="flex items-center gap-3">
-              <span class="w-12 text-sm font-medium text-gray-600 text-right"><%= label %></span>
+              <span class="w-12 text-sm font-semibold text-ink-600 text-right"><%= label %></span>
               <div class="flex-1">
                 <div class="progress-bar">
                   <div class="progress-bar-fill <%= bloom_colors[level] || 'bg-primary-500' %>"
                        style="width: <%= [(count.to_f / max_count * 100).round, 3].max %>%"></div>
                 </div>
               </div>
-              <span class="w-8 text-sm font-semibold text-gray-700 text-right"><%= count %></span>
+              <span class="w-8 text-sm font-bold text-ink-700 text-right"><%= count %></span>
             </div>
           <% end %>
         </div>
@@ -72,12 +72,12 @@
     <section class="mb-10">
       <h2 class="section-title mb-5">역량 점수</h2>
       <% competency_labels = { "comprehension" => "이해력", "aesthetic" => "심미적 감수성", "communication" => "의사소통 능력" } %>
-      <% competency_colors = %w[border-primary-500 border-accent-500 border-warm-500] %>
+      <% competency_colors = %w[border-primary-500 border-sage-500 border-warm-500] %>
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <% competency_labels.each_with_index do |(key, label), idx| %>
           <div class="stat-card border-t-4 <%= competency_colors[idx] %>">
             <p class="text-2xl font-bold text-primary-600 mb-1"><%= data["competency_averages"][key] || "-" %></p>
-            <p class="text-sm text-gray-500"><%= label %></p>
+            <p class="text-sm text-ink-500"><%= label %></p>
           </div>
         <% end %>
       </div>

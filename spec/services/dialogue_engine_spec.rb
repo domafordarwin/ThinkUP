@@ -9,9 +9,10 @@ RSpec.describe DialogueEngine do
 
       engine = DialogueEngine.new(question)
 
-      mock_response = double(content: [double(text: "왜 그렇게 생각하나요? 근거를 들어 설명해보세요.")])
-      mock_messages = double(create: mock_response)
-      mock_client = double(messages: mock_messages)
+      mock_response = { "choices" => [{ "message" => { "content" => "왜 그렇게 생각하나요? 근거를 들어 설명해보세요." } }] }
+      mock_client = double
+      allow(mock_client).to receive(:chat).and_return(mock_response)
+      allow(engine).to receive(:api_key_present?).and_return(true)
       allow(engine).to receive(:client).and_return(mock_client)
 
       result = engine.call

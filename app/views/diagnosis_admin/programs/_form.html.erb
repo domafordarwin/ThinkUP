@@ -8,39 +8,39 @@
   <% end %>
 
   <div>
-    <%= f.label :name, "프로그램명", class: "block font-medium" %>
+    <%= f.label :name, "프로그램명", class: "block font-semibold" %>
     <%= f.text_field :name, class: "w-full border rounded px-3 py-2" %>
   </div>
 
   <div>
-    <%= f.label :description, "설명", class: "block font-medium" %>
+    <%= f.label :description, "설명", class: "block font-semibold" %>
     <%= f.text_area :description, rows: 3, class: "w-full border rounded px-3 py-2" %>
   </div>
 
   <div class="grid grid-cols-2 gap-4">
     <div>
-      <%= f.label :target_grade_min, "최소 학년", class: "block font-medium" %>
+      <%= f.label :target_grade_min, "최소 학년", class: "block font-semibold" %>
       <%= f.number_field :target_grade_min, in: 1..12, class: "w-full border rounded px-3 py-2" %>
     </div>
     <div>
-      <%= f.label :target_grade_max, "최대 학년", class: "block font-medium" %>
+      <%= f.label :target_grade_max, "최대 학년", class: "block font-semibold" %>
       <%= f.number_field :target_grade_max, in: 1..12, class: "w-full border rounded px-3 py-2" %>
     </div>
   </div>
 
   <div class="grid grid-cols-2 gap-4">
     <div>
-      <%= f.label :starts_on, "시작일", class: "block font-medium" %>
+      <%= f.label :starts_on, "시작일", class: "block font-semibold" %>
       <%= f.date_field :starts_on, class: "w-full border rounded px-3 py-2" %>
     </div>
     <div>
-      <%= f.label :ends_on, "종료일", class: "block font-medium" %>
+      <%= f.label :ends_on, "종료일", class: "block font-semibold" %>
       <%= f.date_field :ends_on, class: "w-full border rounded px-3 py-2" %>
     </div>
   </div>
 
   <div>
-    <label class="block font-medium">배정 학교</label>
+    <label class="block font-semibold">배정 학교</label>
     <% @schools.each do |school| %>
       <label class="flex items-center gap-2 mt-1">
         <%= check_box_tag "school_ids[]", school.id, program.schools.include?(school) %>
@@ -50,7 +50,7 @@
   </div>
 
   <div>
-    <label class="block font-medium">포함 지문</label>
+    <label class="block font-semibold">포함 지문</label>
     <% @passages.each do |passage| %>
       <label class="flex items-center gap-2 mt-1">
         <%= check_box_tag "passage_ids[]", passage.id, program.passages.include?(passage) %>

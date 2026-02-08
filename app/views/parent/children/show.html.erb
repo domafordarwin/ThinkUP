@@ -8,16 +8,16 @@
   <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
     <div class="stat-card border-t-4 border-primary-500">
       <p class="text-3xl font-bold text-primary-600 mb-1"><%= @stats[:total_sessions] %></p>
-      <p class="text-sm text-gray-500">완료한 학습</p>
+      <p class="text-sm text-ink-500">완료한 학습</p>
     </div>
-    <div class="stat-card border-t-4 border-accent-500">
-      <p class="text-3xl font-bold text-accent-600 mb-1"><%= @stats[:bloom_distribution].values.sum %></p>
-      <p class="text-sm text-gray-500">생성한 발문</p>
+    <div class="stat-card border-t-4 border-sage-500">
+      <p class="text-3xl font-bold text-sage-600 mb-1"><%= @stats[:bloom_distribution].values.sum %></p>
+      <p class="text-sm text-ink-500">생성한 발문</p>
     </div>
     <div class="stat-card border-t-4 border-warm-500">
       <% avg = @stats[:competency_averages].values %>
       <p class="text-3xl font-bold text-warm-600 mb-1"><%= avg.any? ? (avg.sum / avg.size).round(1) : "-" %></p>
-      <p class="text-sm text-gray-500">평균 역량 점수</p>
+      <p class="text-sm text-ink-500">평균 역량 점수</p>
     </div>
   </div>
 
@@ -25,12 +25,12 @@
   <section class="mb-10">
     <h2 class="section-title mb-5">역량 점수</h2>
     <% competency_labels = { "comprehension" => "이해력", "aesthetic" => "심미적 감수성", "communication" => "의사소통 능력" } %>
-    <% competency_colors = %w[border-primary-500 border-accent-500 border-warm-500] %>
+    <% competency_colors = %w[border-primary-500 border-sage-500 border-warm-500] %>
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
       <% competency_labels.each_with_index do |(key, label), idx| %>
         <div class="stat-card border-t-4 <%= competency_colors[idx] %>">
           <p class="text-2xl font-bold text-primary-600 mb-1"><%= @stats[:competency_averages][key] || "-" %></p>
-          <p class="text-sm text-gray-500"><%= label %></p>
+          <p class="text-sm text-ink-500"><%= label %></p>
         </div>
       <% end %>
     </div>
@@ -43,11 +43,11 @@
       <% @sessions.each do |session| %>
         <div class="card p-5">
           <div class="flex justify-between items-center mb-2">
-            <span class="font-semibold text-gray-900"><%= session.passage.title %></span>
-            <span class="text-sm text-gray-400"><%= session.created_at.strftime("%Y-%m-%d") %></span>
+            <span class="font-bold text-ink-900"><%= session.passage.title %></span>
+            <span class="text-sm text-ink-400"><%= session.created_at.strftime("%Y-%m-%d") %></span>
           </div>
           <% if session.session_summary %>
-            <p class="text-sm text-gray-600 leading-relaxed mb-2"><%= session.session_summary.summary %></p>
+            <p class="text-sm text-ink-600 leading-relaxed mb-2"><%= session.session_summary.summary %></p>
             <% if session.session_summary.highlight_question.present? %>
               <div class="border-l-4 border-primary-200 pl-3 mt-2">
                 <p class="text-sm italic text-primary-600">"<%= session.session_summary.highlight_question %>"</p>

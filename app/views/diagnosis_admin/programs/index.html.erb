@@ -8,12 +8,12 @@
     <% @programs.each do |program| %>
       <div class="border rounded-lg p-4">
         <div class="flex justify-between items-center">
-          <h2 class="font-semibold text-lg"><%= program.name %></h2>
-          <span class="text-sm text-gray-500">
+          <h2 class="font-bold text-lg"><%= program.name %></h2>
+          <span class="text-sm text-ink-500">
             <%= program.starts_on.strftime("%Y-%m-%d") %> ~ <%= program.ends_on.strftime("%Y-%m-%d") %>
           </span>
         </div>
-        <p class="text-sm text-gray-600 mt-1">
+        <p class="text-sm text-ink-600 mt-1">
           대상: <%= program.target_grade_min %>~<%= program.target_grade_max %>학년 |
           학교 <%= program.schools.count %>개 |
           지문 <%= program.passages.count %>개

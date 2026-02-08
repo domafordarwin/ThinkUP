@@ -15,9 +15,10 @@ RSpec.describe SummaryGenerator do
         "highlight_question" => "저자는 왜 이런 주장을 했을까요?"
       }.to_json
 
-      mock_response = double(content: [double(text: ai_json)])
-      mock_messages = double(create: mock_response)
-      mock_client = double(messages: mock_messages)
+      mock_response = { "choices" => [{ "message" => { "content" => ai_json } }] }
+      mock_client = double
+      allow(mock_client).to receive(:chat).and_return(mock_response)
+      allow(generator).to receive(:api_key_present?).and_return(true)
       allow(generator).to receive(:client).and_return(mock_client)
 
       result = generator.call

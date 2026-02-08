@@ -8,17 +8,17 @@
   <% end %>
 
   <div>
-    <%= f.label :name, "학교명", class: "block font-medium" %>
+    <%= f.label :name, "학교명", class: "block font-semibold" %>
     <%= f.text_field :name, class: "w-full border rounded px-3 py-2" %>
   </div>
 
   <div>
-    <%= f.label :region, "지역", class: "block font-medium" %>
+    <%= f.label :region, "지역", class: "block font-semibold" %>
     <%= f.text_field :region, class: "w-full border rounded px-3 py-2" %>
   </div>
 
   <div>
-    <label class="block font-medium">학교 담당자 (선택)</label>
+    <label class="block font-semibold">학교 담당자 (선택)</label>
     <%= select_tag :admin_user_id,
       options_from_collection_for_select(User.where(role: :school_admin), :id, :name),
       include_blank: "선택 안함", class: "w-full border rounded px-3 py-2" %>

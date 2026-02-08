@@ -2,37 +2,37 @@
   <div class="flex justify-between items-center mb-6">
     <div>
       <h1 class="text-2xl font-bold"><%= @school.name %></h1>
-      <p class="text-gray-500"><%= @school.region %></p>
+      <p class="text-ink-500"><%= @school.region %></p>
     </div>
     <div class="flex gap-2">
-      <%= link_to "수정", edit_diagnosis_admin_school_path(@school), class: "bg-gray-200 px-4 py-2 rounded text-sm" %>
+      <%= link_to "수정", edit_diagnosis_admin_school_path(@school), class: "bg-ink-200 px-4 py-2 rounded text-sm" %>
       <%= button_to "삭제", diagnosis_admin_school_path(@school), method: :delete,
           data: { turbo_confirm: "정말 삭제하시겠습니까?" }, class: "bg-red-600 text-white px-4 py-2 rounded text-sm" %>
     </div>
   </div>
 
   <section class="mb-8">
-    <h2 class="text-xl font-semibold mb-4">구성원 (<%= @enrollments.count %>명)</h2>
+    <h2 class="text-xl font-bold mb-4">구성원 (<%= @enrollments.count %>명)</h2>
     <div class="space-y-2">
       <% @enrollments.each do |enrollment| %>
         <div class="border rounded p-3 flex justify-between items-center">
           <div>
-            <span class="font-medium"><%= enrollment.user.name %></span>
-            <span class="text-sm text-gray-500 ml-2"><%= enrollment.user.email %></span>
+            <span class="font-semibold"><%= enrollment.user.name %></span>
+            <span class="text-sm text-ink-500 ml-2"><%= enrollment.user.email %></span>
           </div>
-          <span class="text-xs bg-gray-100 px-2 py-1 rounded"><%= enrollment.role_in_school %></span>
+          <span class="text-xs bg-ink-100 px-2 py-1 rounded"><%= enrollment.role_in_school %></span>
         </div>
       <% end %>
     </div>
   </section>
 
   <section class="mb-8">
-    <h2 class="text-xl font-semibold mb-4">배정 프로그램 (<%= @programs.count %>개)</h2>
+    <h2 class="text-xl font-bold mb-4">배정 프로그램 (<%= @programs.count %>개)</h2>
     <div class="space-y-2">
       <% @programs.each do |program| %>
         <div class="border rounded p-3 flex justify-between">
           <span><%= program.name %></span>
-          <span class="text-sm text-gray-500">
+          <span class="text-sm text-ink-500">
             <%= program.starts_on.strftime("%Y-%m-%d") %> ~ <%= program.ends_on.strftime("%Y-%m-%d") %>
           </span>
         </div>
@@ -40,5 +40,5 @@
     </div>
   </section>
 
-  <%= link_to "목록으로", diagnosis_admin_schools_path, class: "text-gray-600" %>
+  <%= link_to "목록으로", diagnosis_admin_schools_path, class: "text-ink-600" %>
 </div>

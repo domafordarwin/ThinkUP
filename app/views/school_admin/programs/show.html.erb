@@ -1,29 +1,29 @@
 <div class="max-w-4xl mx-auto p-6">
   <h1 class="text-2xl font-bold mb-2"><%= @program.name %></h1>
-  <p class="text-gray-500 mb-6">
+  <p class="text-ink-500 mb-6">
     <%= @program.starts_on.strftime("%Y-%m-%d") %> ~ <%= @program.ends_on.strftime("%Y-%m-%d") %> |
     대상: <%= @program.target_grade_min %>~<%= @program.target_grade_max %>학년
   </p>
 
   <section class="mb-8">
-    <h2 class="text-xl font-semibold mb-4">포함 지문 (<%= @passages.count %>개)</h2>
+    <h2 class="text-xl font-bold mb-4">포함 지문 (<%= @passages.count %>개)</h2>
     <div class="space-y-2">
       <% @passages.each_with_index do |passage, i| %>
         <div class="border rounded p-3 flex justify-between">
           <span><%= i + 1 %>. <%= passage.title %></span>
-          <span class="text-sm text-gray-500">난이도 <%= passage.difficulty %></span>
+          <span class="text-sm text-ink-500">난이도 <%= passage.difficulty %></span>
         </div>
       <% end %>
     </div>
   </section>
 
   <section>
-    <h2 class="text-xl font-semibold mb-4">대상 학생 (<%= @students.count %>명)</h2>
+    <h2 class="text-xl font-bold mb-4">대상 학생 (<%= @students.count %>명)</h2>
     <div class="space-y-2">
       <% @students.each do |student| %>
         <div class="border rounded p-3 flex justify-between items-center">
           <span><%= student.name %> (<%= student.grade_level %>학년)</span>
-          <span class="text-sm text-gray-500">
+          <span class="text-sm text-ink-500">
             완료: <%= student.learning_sessions.completed.count %> / 진행중: <%= student.learning_sessions.where.not(status: :completed).count %>
           </span>
         </div>
@@ -32,6 +32,6 @@
   </section>
 
   <div class="mt-6">
-    <%= link_to "프로그램 목록", school_admin_programs_path, class: "text-gray-600" %>
+    <%= link_to "프로그램 목록", school_admin_programs_path, class: "text-ink-600" %>
   </div>
 </div>

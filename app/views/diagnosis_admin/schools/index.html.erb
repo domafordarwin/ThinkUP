@@ -11,10 +11,10 @@
     <% @schools.each do |school| %>
       <div class="card p-5 flex justify-between items-center">
         <div>
-          <h2 class="font-semibold text-gray-900 mb-1.5"><%= school.name %></h2>
+          <h2 class="font-bold text-ink-900 mb-1.5"><%= school.name %></h2>
           <div class="flex flex-wrap gap-2">
             <span class="badge bg-primary-50 text-primary-700"><%= school.region %></span>
-            <span class="badge bg-accent-50 text-accent-600">학생 <%= school.school_enrollments.student_member.count %>명</span>
+            <span class="badge bg-sage-50 text-sage-600">학생 <%= school.school_enrollments.student_member.count %>명</span>
             <span class="badge bg-warm-50 text-warm-600">프로그램 <%= school.programs.count %>개</span>
           </div>
         </div>

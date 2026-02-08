@@ -11,39 +11,39 @@
   <% end %>
 
   <div>
-    <%= f.label :title, "제목", class: "block text-sm font-medium text-gray-700 mb-1.5" %>
+    <%= f.label :title, "제목", class: "block text-sm font-semibold text-ink-700 mb-1.5" %>
     <%= f.text_field :title, class: "input-field", placeholder: "지문 제목을 입력하세요" %>
   </div>
 
   <div>
-    <%= f.label :content, "본문", class: "block text-sm font-medium text-gray-700 mb-1.5" %>
+    <%= f.label :content, "본문", class: "block text-sm font-semibold text-ink-700 mb-1.5" %>
     <%= f.text_area :content, rows: 10, class: "input-field", placeholder: "지문 본문을 입력하세요" %>
   </div>
 
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
     <div>
-      <%= f.label :genre, "장르", class: "block text-sm font-medium text-gray-700 mb-1.5" %>
+      <%= f.label :genre, "장르", class: "block text-sm font-semibold text-ink-700 mb-1.5" %>
       <%= f.select :genre, Passage.genres.keys.map { |g| [g, g] }, {}, class: "input-field" %>
     </div>
     <div>
-      <%= f.label :difficulty, "난이도 (1-5)", class: "block text-sm font-medium text-gray-700 mb-1.5" %>
+      <%= f.label :difficulty, "난이도 (1-5)", class: "block text-sm font-semibold text-ink-700 mb-1.5" %>
       <%= f.number_field :difficulty, in: 1..5, class: "input-field" %>
     </div>
   </div>
 
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
     <div>
-      <%= f.label :min_grade, "최소 학년", class: "block text-sm font-medium text-gray-700 mb-1.5" %>
+      <%= f.label :min_grade, "최소 학년", class: "block text-sm font-semibold text-ink-700 mb-1.5" %>
       <%= f.number_field :min_grade, in: 1..12, class: "input-field" %>
     </div>
     <div>
-      <%= f.label :max_grade, "최대 학년", class: "block text-sm font-medium text-gray-700 mb-1.5" %>
+      <%= f.label :max_grade, "최대 학년", class: "block text-sm font-semibold text-ink-700 mb-1.5" %>
       <%= f.number_field :max_grade, in: 1..12, class: "input-field" %>
     </div>
   </div>
 
   <div>
-    <%= f.label :subject_tags, "주제 태그 (쉼표 구분)", class: "block text-sm font-medium text-gray-700 mb-1.5" %>
+    <%= f.label :subject_tags, "주제 태그 (쉼표 구분)", class: "block text-sm font-semibold text-ink-700 mb-1.5" %>
     <%= f.text_field :subject_tags, class: "input-field", placeholder: "예: 문학, 과학, 역사" %>
   </div>
 

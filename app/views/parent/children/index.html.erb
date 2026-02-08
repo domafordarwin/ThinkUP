@@ -7,10 +7,10 @@
         <div class="card p-5">
           <div class="flex justify-between items-center">
             <div>
-              <h2 class="font-semibold text-gray-900 text-lg mb-1.5"><%= child.name %></h2>
+              <h2 class="font-bold text-ink-900 text-lg mb-1.5"><%= child.name %></h2>
               <div class="flex flex-wrap gap-2">
                 <span class="badge bg-primary-50 text-primary-700"><%= child.grade_level %>학년</span>
-                <span class="badge bg-accent-50 text-accent-600">완료 학습: <%= child.learning_sessions.completed.count %>회</span>
+                <span class="badge bg-sage-50 text-sage-600">완료 학습: <%= child.learning_sessions.completed.count %>회</span>
               </div>
             </div>
             <%= link_to "상세 보기", parent_child_path(child), class: "btn-primary" %>
@@ -20,7 +20,7 @@
     </div>
   <% else %>
     <div class="card-flat p-8 text-center">
-      <p class="text-gray-500">연결된 자녀가 없습니다. 학교 담당자에게 문의하세요.</p>
+      <p class="text-ink-500">연결된 자녀가 없습니다. 학교 담당자에게 문의하세요.</p>
     </div>
   <% end %>
 </div>

@@ -11,33 +11,33 @@
   <% end %>
 
   <div>
-    <%= f.label :name, "이름", class: "block text-sm font-medium text-gray-700 mb-1.5" %>
+    <%= f.label :name, "이름", class: "block text-sm font-semibold text-ink-700 mb-1.5" %>
     <%= f.text_field :name, class: "input-field", required: true, placeholder: "이름을 입력하세요" %>
   </div>
 
   <div>
-    <%= f.label :email, "이메일", class: "block text-sm font-medium text-gray-700 mb-1.5" %>
+    <%= f.label :email, "이메일", class: "block text-sm font-semibold text-ink-700 mb-1.5" %>
     <%= f.email_field :email, class: "input-field", required: true, placeholder: "이메일 주소를 입력하세요" %>
   </div>
 
   <div>
-    <%= f.label :password, "비밀번호#{user.persisted? ? ' (변경 시에만 입력)' : ''}", class: "block text-sm font-medium text-gray-700 mb-1.5" %>
+    <%= f.label :password, "비밀번호#{user.persisted? ? ' (변경 시에만 입력)' : ''}", class: "block text-sm font-semibold text-ink-700 mb-1.5" %>
     <%= f.password_field :password, class: "input-field", required: user.new_record? %>
   </div>
 
   <div>
-    <%= f.label :role, "역할", class: "block text-sm font-medium text-gray-700 mb-1.5" %>
+    <%= f.label :role, "역할", class: "block text-sm font-semibold text-ink-700 mb-1.5" %>
     <%= f.select :role, User.roles.keys.map { |r| [r, r] }, {}, class: "input-field" %>
   </div>
 
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
     <div>
-      <%= f.label :grade_level, "학년 (학생인 경우)", class: "block text-sm font-medium text-gray-700 mb-1.5" %>
+      <%= f.label :grade_level, "학년 (학생인 경우)", class: "block text-sm font-semibold text-ink-700 mb-1.5" %>
       <%= f.number_field :grade_level, class: "input-field", min: 1, max: 12 %>
     </div>
 
     <div>
-      <%= f.label :thinking_level, "사고력 수준", class: "block text-sm font-medium text-gray-700 mb-1.5" %>
+      <%= f.label :thinking_level, "사고력 수준", class: "block text-sm font-semibold text-ink-700 mb-1.5" %>
       <%= f.number_field :thinking_level, class: "input-field", min: 1, max: 5 %>
     </div>
   </div>

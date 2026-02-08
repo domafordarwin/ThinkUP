@@ -6,31 +6,31 @@
 
   <div class="card-flat p-6">
     <div class="space-y-5">
-      <div class="flex items-start justify-between py-3 border-b border-gray-50">
-        <span class="text-sm font-medium text-gray-500 w-32 shrink-0">이메일</span>
-        <p class="text-sm text-gray-900"><%= @user.email %></p>
+      <div class="flex items-start justify-between py-3 border-b border-ink-100">
+        <span class="text-sm font-semibold text-ink-500 w-32 shrink-0">이메일</span>
+        <p class="text-sm text-ink-900"><%= @user.email %></p>
       </div>
-      <div class="flex items-start justify-between py-3 border-b border-gray-50">
-        <span class="text-sm font-medium text-gray-500 w-32 shrink-0">역할</span>
+      <div class="flex items-start justify-between py-3 border-b border-ink-100">
+        <span class="text-sm font-semibold text-ink-500 w-32 shrink-0">역할</span>
         <span class="badge bg-primary-50 text-primary-700"><%= @user.role %></span>
       </div>
       <% if @user.student? %>
-        <div class="flex items-start justify-between py-3 border-b border-gray-50">
-          <span class="text-sm font-medium text-gray-500 w-32 shrink-0">학년</span>
-          <span class="badge bg-accent-50 text-accent-600"><%= @user.grade_level %>학년</span>
+        <div class="flex items-start justify-between py-3 border-b border-ink-100">
+          <span class="text-sm font-semibold text-ink-500 w-32 shrink-0">학년</span>
+          <span class="badge bg-sage-50 text-sage-600"><%= @user.grade_level %>학년</span>
         </div>
-        <div class="flex items-start justify-between py-3 border-b border-gray-50">
-          <span class="text-sm font-medium text-gray-500 w-32 shrink-0">사고력 수준</span>
+        <div class="flex items-start justify-between py-3 border-b border-ink-100">
+          <span class="text-sm font-semibold text-ink-500 w-32 shrink-0">사고력 수준</span>
           <span class="badge bg-warm-50 text-warm-600"><%= @user.thinking_level %>단계</span>
         </div>
       <% end %>
-      <div class="flex items-start justify-between py-3 border-b border-gray-50">
-        <span class="text-sm font-medium text-gray-500 w-32 shrink-0">가입일</span>
-        <p class="text-sm text-gray-900"><%= @user.created_at.strftime("%Y-%m-%d %H:%M") %></p>
+      <div class="flex items-start justify-between py-3 border-b border-ink-100">
+        <span class="text-sm font-semibold text-ink-500 w-32 shrink-0">가입일</span>
+        <p class="text-sm text-ink-900"><%= @user.created_at.strftime("%Y-%m-%d %H:%M") %></p>
       </div>
       <% if @user.schools.any? %>
         <div class="flex items-start justify-between py-3">
-          <span class="text-sm font-medium text-gray-500 w-32 shrink-0">소속 학교</span>
+          <span class="text-sm font-semibold text-ink-500 w-32 shrink-0">소속 학교</span>
           <div class="flex flex-wrap gap-2">
             <% @user.schools.each do |school| %>
               <span class="badge bg-primary-50 text-primary-700"><%= school.name %></span>

@@ -13,8 +13,8 @@
       <% @students.each do |student| %>
         <div class="card p-4 flex justify-between items-center">
           <div class="flex items-center gap-3 flex-wrap">
-            <span class="font-semibold text-gray-900"><%= student.name %></span>
-            <span class="text-sm text-gray-500"><%= student.email %></span>
+            <span class="font-bold text-ink-900"><%= student.name %></span>
+            <span class="text-sm text-ink-500"><%= student.email %></span>
             <span class="badge bg-primary-50 text-primary-700"><%= student.grade_level %>학년</span>
           </div>
           <%= link_to "상세", school_admin_member_path(student), class: "btn-secondary text-sm" %>
@@ -29,8 +29,8 @@
       <% @parents.each do |parent| %>
         <div class="card p-4 flex justify-between items-center">
           <div class="flex items-center gap-3 flex-wrap">
-            <span class="font-semibold text-gray-900"><%= parent.name %></span>
-            <span class="text-sm text-gray-500"><%= parent.email %></span>
+            <span class="font-bold text-ink-900"><%= parent.name %></span>
+            <span class="text-sm text-ink-500"><%= parent.email %></span>
           </div>
           <%= link_to "상세", school_admin_member_path(parent), class: "btn-secondary text-sm" %>
         </div>

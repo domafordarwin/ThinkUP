@@ -3,17 +3,17 @@
 
   <% if @settings.empty? %>
     <div class="card-flat p-8 text-center">
-      <p class="text-gray-500">등록된 설정이 없습니다.</p>
+      <p class="text-ink-500">등록된 설정이 없습니다.</p>
     </div>
   <% else %>
-    <div class="card-flat divide-y divide-gray-50 overflow-hidden">
+    <div class="card-flat divide-y divide-ink-100 overflow-hidden">
       <% @settings.each do |setting| %>
         <div class="p-5">
           <%= form_with(model: [:system_admin, setting], method: :patch, class: "flex items-center gap-4") do |f| %>
             <div class="flex-1 min-w-0">
-              <p class="text-sm font-semibold text-gray-900"><%= setting.key %></p>
+              <p class="text-sm font-bold text-ink-900"><%= setting.key %></p>
               <% if setting.description.present? %>
-                <p class="text-xs text-gray-500 mt-0.5"><%= setting.description %></p>
+                <p class="text-xs text-ink-500 mt-0.5"><%= setting.description %></p>
               <% end %>
             </div>
             <div class="flex items-center gap-2 shrink-0">

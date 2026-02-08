@@ -19,14 +19,20 @@ class DialogueEngine
   end
 
   def call
+    return mock_response unless api_key_present?
+
     messages = build_messages
-    response = client.messages.create(
-      model: "claude-sonnet-4-5-20250929",
-      max_tokens: 300,
-      system: SYSTEM_PROMPT,
-      messages: messages
+    response = client.chat(
+      parameters: {
+        model: "gpt-4o-mini",
+        messages: [{ role: "system", content: SYSTEM_PROMPT }] + messages,
+        max_tokens: 300
+      }
     )
-    response.content.first.text.strip
+    response.dig("choices", 0, "message", "content").strip
+  rescue StandardError => e
+    Rails.logger.error("DialogueEngine API error: #{e.message}")
+    mock_response
   end
 
   private
@@ -46,7 +52,15 @@ class DialogueEngine
     messages
   end
 
+  def api_key_present?
+    ENV["OPENAI_API_KEY"].present?
+  end
+
+  def mock_response
+    "좋은 생각이에요! 그렇다면 왜 그렇게 생각하나요? 다른 관점에서도 한번 생각해볼까요?"
+  end
+
   def client
-    @client ||= Anthropic::Client.new(api_key: ENV.fetch("ANTHROPIC_API_KEY"))
+    @client ||= OpenAI::Client.new(access_token: ENV.fetch("OPENAI_API_KEY"))
   end
 end

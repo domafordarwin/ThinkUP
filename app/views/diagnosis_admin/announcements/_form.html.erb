@@ -8,17 +8,17 @@
   <% end %>
 
   <div>
-    <%= f.label :title, "제목", class: "block font-medium" %>
+    <%= f.label :title, "제목", class: "block font-semibold" %>
     <%= f.text_field :title, class: "w-full border rounded px-3 py-2" %>
   </div>
 
   <div>
-    <%= f.label :content, "내용", class: "block font-medium" %>
+    <%= f.label :content, "내용", class: "block font-semibold" %>
     <%= f.text_area :content, rows: 8, class: "w-full border rounded px-3 py-2" %>
   </div>
 
   <div>
-    <%= f.label :published_at, "공개 일시 (비워두면 미공개)", class: "block font-medium" %>
+    <%= f.label :published_at, "공개 일시 (비워두면 미공개)", class: "block font-semibold" %>
     <%= f.datetime_local_field :published_at, class: "w-full border rounded px-3 py-2" %>
   </div>
 

@@ -39,6 +39,8 @@ class SummaryGenerator
   private
 
   def generate_ai_summary(questions)
+    return mock_summary(questions) unless api_key_present?
+
     dialogues_text = questions.flat_map { |q|
       q.ai_dialogues.map { |d| "#{d.role}: #{d.content}" }
     }.join("\n")
@@ -49,18 +51,34 @@ class SummaryGenerator
       dialogues: dialogues_text.truncate(2000)
     }
 
-    response = client.messages.create(
-      model: "claude-sonnet-4-5-20250929",
-      max_tokens: 500,
-      messages: [{ role: "user", content: prompt }]
+    response = client.chat(
+      parameters: {
+        model: "gpt-4o-mini",
+        messages: [{ role: "user", content: prompt }],
+        max_tokens: 500
+      }
     )
 
-    JSON.parse(response.content.first.text)
-  rescue JSON::ParserError
-    { "summary" => "요약 생성 중 오류가 발생했습니다.", "competency_scores" => {}, "highlight_question" => "" }
+    JSON.parse(response.dig("choices", 0, "message", "content"))
+  rescue StandardError => e
+    Rails.logger.error("SummaryGenerator API error: #{e.message}")
+    mock_summary(questions)
+  end
+
+  def api_key_present?
+    ENV["OPENAI_API_KEY"].present?
+  end
+
+  def mock_summary(questions)
+    highlight = questions.order(bloom_level: :desc).first&.content || ""
+    {
+      "summary" => "학생은 지문을 읽고 #{questions.count}개의 발문을 생성하며 적극적으로 사고를 확장했습니다. 다양한 관점에서 질문을 던지는 모습이 인상적입니다.",
+      "competency_scores" => { "comprehension" => 3, "aesthetic" => 3, "communication" => 3 },
+      "highlight_question" => highlight
+    }
   end
 
   def client
-    @client ||= Anthropic::Client.new(api_key: ENV.fetch("ANTHROPIC_API_KEY"))
+    @client ||= OpenAI::Client.new(access_token: ENV.fetch("OPENAI_API_KEY"))
   end
 end

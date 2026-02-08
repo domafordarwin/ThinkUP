@@ -6,17 +6,17 @@
       <% @programs.each do |program| %>
         <div class="card p-5">
           <div class="flex justify-between items-start mb-3">
-            <h2 class="font-semibold text-gray-900 text-lg"><%= program.name %></h2>
+            <h2 class="font-bold text-ink-900 text-lg"><%= program.name %></h2>
             <span class="badge bg-primary-50 text-primary-700">
               <%= program.starts_on.strftime("%Y-%m-%d") %> ~ <%= program.ends_on.strftime("%Y-%m-%d") %>
             </span>
           </div>
           <div class="flex flex-wrap gap-2 mb-3">
-            <span class="badge bg-accent-50 text-accent-600"><%= program.target_grade_min %>~<%= program.target_grade_max %>학년</span>
+            <span class="badge bg-sage-50 text-sage-600"><%= program.target_grade_min %>~<%= program.target_grade_max %>학년</span>
             <span class="badge bg-warm-50 text-warm-600">지문 <%= program.passages.count %>개</span>
           </div>
           <% if program.description.present? %>
-            <p class="text-sm text-gray-500 mb-3 leading-relaxed"><%= program.description %></p>
+            <p class="text-sm text-ink-500 mb-3 leading-relaxed"><%= program.description %></p>
           <% end %>
           <%= link_to "상세 보기", school_admin_program_path(program), class: "btn-secondary text-sm" %>
         </div>
@@ -24,7 +24,7 @@
     </div>
   <% else %>
     <div class="card-flat p-8 text-center">
-      <p class="text-gray-500">배정된 프로그램이 없습니다.</p>
+      <p class="text-ink-500">배정된 프로그램이 없습니다.</p>
     </div>
   <% end %>
 </div>

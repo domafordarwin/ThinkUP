@@ -5,30 +5,30 @@
   <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
     <div class="stat-card border-t-4 border-primary-500">
       <p class="text-3xl font-bold text-primary-600 mb-1"><%= @total_schools %></p>
-      <p class="text-sm text-gray-500">등록 학교</p>
+      <p class="text-sm text-ink-500">등록 학교</p>
     </div>
-    <div class="stat-card border-t-4 border-accent-500">
-      <p class="text-3xl font-bold text-accent-600 mb-1"><%= @total_students %></p>
-      <p class="text-sm text-gray-500">전체 학생</p>
+    <div class="stat-card border-t-4 border-sage-500">
+      <p class="text-3xl font-bold text-sage-600 mb-1"><%= @total_students %></p>
+      <p class="text-sm text-ink-500">전체 학생</p>
     </div>
     <div class="stat-card border-t-4 border-warm-500">
       <p class="text-3xl font-bold text-warm-600 mb-1"><%= @active_programs %></p>
-      <p class="text-sm text-gray-500">활성 프로그램</p>
+      <p class="text-sm text-ink-500">활성 프로그램</p>
     </div>
   </div>
 
   <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
     <div class="stat-card">
       <p class="text-3xl font-bold text-primary-600 mb-1"><%= @monthly_sessions %></p>
-      <p class="text-sm text-gray-500">이번 달 완료 세션</p>
+      <p class="text-sm text-ink-500">이번 달 완료 세션</p>
     </div>
     <div class="stat-card">
-      <p class="text-3xl font-bold text-accent-600 mb-1"><%= @total_questions %></p>
-      <p class="text-sm text-gray-500">총 생성 발문</p>
+      <p class="text-3xl font-bold text-sage-600 mb-1"><%= @total_questions %></p>
+      <p class="text-sm text-ink-500">총 생성 발문</p>
     </div>
     <div class="stat-card">
       <p class="text-3xl font-bold text-warm-600 mb-1"><%= @total_parents %></p>
-      <p class="text-sm text-gray-500">전체 학부모</p>
+      <p class="text-sm text-ink-500">전체 학부모</p>
     </div>
   </div>
 
@@ -39,10 +39,10 @@
       <% @schools.each do |school| %>
         <div class="card p-5 flex justify-between items-center">
           <div>
-            <h3 class="font-semibold text-gray-900 mb-1.5"><%= school.name %></h3>
+            <h3 class="font-bold text-ink-900 mb-1.5"><%= school.name %></h3>
             <div class="flex flex-wrap gap-2">
               <span class="badge bg-primary-50 text-primary-700"><%= school.region %></span>
-              <span class="badge bg-accent-50 text-accent-600">학생 <%= school.school_enrollments.student_member.count %>명</span>
+              <span class="badge bg-sage-50 text-sage-600">학생 <%= school.school_enrollments.student_member.count %>명</span>
               <span class="badge bg-warm-50 text-warm-600">프로그램 <%= school.programs.count %>개</span>
             </div>
           </div>

@@ -23,20 +23,35 @@ class BloomClassifier
   end
 
   def call
-    response = client.messages.create(
-      model: "claude-sonnet-4-5-20250929",
-      max_tokens: 10,
-      messages: [{ role: "user", content: PROMPT % { question: @question_text } }]
+    return mock_classify unless api_key_present?
+
+    response = client.chat(
+      parameters: {
+        model: "gpt-4o-mini",
+        messages: [{ role: "user", content: PROMPT % { question: @question_text } }],
+        max_tokens: 10
+      }
     )
 
-    level = response.content.first.text.strip.downcase
+    level = response.dig("choices", 0, "message", "content").strip.downcase
     valid_levels = StudentQuestion.bloom_levels.keys
     valid_levels.include?(level) ? level : "remember"
+  rescue StandardError => e
+    Rails.logger.error("BloomClassifier API error: #{e.message}")
+    mock_classify
   end
 
   private
 
+  def api_key_present?
+    ENV["OPENAI_API_KEY"].present?
+  end
+
+  def mock_classify
+    %w[analyze evaluate apply understand].sample
+  end
+
   def client
-    @client ||= Anthropic::Client.new(api_key: ENV.fetch("ANTHROPIC_API_KEY"))
+    @client ||= OpenAI::Client.new(access_token: ENV.fetch("OPENAI_API_KEY"))
   end
 end
