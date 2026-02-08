@@ -1,0 +1,39 @@
+<div class="max-w-2xl mx-auto p-6">
+  <h1 class="text-2xl font-bold mb-6">보고서 생성</h1>
+
+  <%= form_with(url: diagnosis_admin_reports_path, method: :post, class: "space-y-4") do |f| %>
+    <div>
+      <label class="block font-medium">보고서 유형</label>
+      <%= select_tag :report_type,
+        options_for_select([["학생 보고서", "student_report"], ["학교 보고서", "school_report"], ["전체 보고서", "overall_report"]]),
+        class: "w-full border rounded px-3 py-2" %>
+    </div>
+
+    <div>
+      <label class="block font-medium">학생 (학생 보고서인 경우)</label>
+      <%= select_tag :user_id,
+        options_from_collection_for_select(@students, :id, :name),
+        include_blank: "선택 안함", class: "w-full border rounded px-3 py-2" %>
+    </div>
+
+    <div>
+      <label class="block font-medium">학교 (학교 보고서인 경우)</label>
+      <%= select_tag :school_id,
+        options_from_collection_for_select(@schools, :id, :name),
+        include_blank: "선택 안함", class: "w-full border rounded px-3 py-2" %>
+    </div>
+
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <label class="block font-medium">시작일</label>
+        <%= date_field_tag :period_start, 1.month.ago.to_date, class: "w-full border rounded px-3 py-2" %>
+      </div>
+      <div>
+        <label class="block font-medium">종료일</label>
+        <%= date_field_tag :period_end, Date.current, class: "w-full border rounded px-3 py-2" %>
+      </div>
+    </div>
+
+    <%= submit_tag "보고서 생성", class: "bg-blue-600 text-white px-6 py-2 rounded cursor-pointer" %>
+  <% end %>
+</div>

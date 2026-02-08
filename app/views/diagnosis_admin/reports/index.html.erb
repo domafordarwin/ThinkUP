@@ -1,0 +1,30 @@
+<div class="max-w-4xl mx-auto p-6">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-2xl font-bold">활동 보고서</h1>
+    <%= link_to "보고서 생성", new_diagnosis_admin_report_path, class: "bg-blue-600 text-white px-4 py-2 rounded" %>
+  </div>
+
+  <div class="space-y-3">
+    <% @reports.each do |report| %>
+      <div class="border rounded-lg p-4 flex justify-between items-center">
+        <div>
+          <span class="font-medium">
+            <% case report.report_type %>
+            <% when "student_report" %>
+              학생 보고서 — <%= report.user&.name %>
+            <% when "school_report" %>
+              학교 보고서 — <%= report.school&.name %>
+            <% when "overall_report" %>
+              전체 보고서
+            <% end %>
+          </span>
+          <p class="text-sm text-gray-500">
+            <%= report.period_start.strftime("%Y-%m-%d") %> ~ <%= report.period_end.strftime("%Y-%m-%d") %> |
+            생성: <%= report.generated_by.name %> (<%= report.created_at.strftime("%Y-%m-%d %H:%M") %>)
+          </p>
+        </div>
+        <%= link_to "보기", diagnosis_admin_report_path(report), class: "text-blue-600 text-sm" %>
+      </div>
+    <% end %>
+  </div>
+</div>

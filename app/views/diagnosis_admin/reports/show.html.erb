@@ -1,0 +1,87 @@
+<div class="max-w-4xl mx-auto p-6">
+  <h1 class="text-2xl font-bold mb-2">
+    <% case @report.report_type %>
+    <% when "student_report" %>
+      학생 활동 보고서 — <%= @report.user&.name %>
+    <% when "school_report" %>
+      학교 활동 보고서 — <%= @report.school&.name %>
+    <% when "overall_report" %>
+      전체 활동 보고서
+    <% end %>
+  </h1>
+  <p class="text-gray-500 mb-6">
+    기간: <%= @report.period_start.strftime("%Y-%m-%d") %> ~ <%= @report.period_end.strftime("%Y-%m-%d") %> |
+    생성: <%= @report.generated_by.name %>
+  </p>
+
+  <% data = @report.data %>
+
+  <%# 요약 카드 %>
+  <div class="grid grid-cols-3 gap-4 mb-8">
+    <% if data["total_schools"] %>
+      <div class="bg-blue-50 rounded-lg p-4 text-center">
+        <p class="text-3xl font-bold text-blue-600"><%= data["total_schools"] %></p>
+        <p class="text-sm text-gray-600">학교</p>
+      </div>
+    <% end %>
+    <% if data["total_students"] %>
+      <div class="bg-green-50 rounded-lg p-4 text-center">
+        <p class="text-3xl font-bold text-green-600"><%= data["total_students"] %></p>
+        <p class="text-sm text-gray-600">학생</p>
+      </div>
+    <% end %>
+    <div class="bg-purple-50 rounded-lg p-4 text-center">
+      <p class="text-3xl font-bold text-purple-600"><%= data["total_sessions"] || 0 %></p>
+      <p class="text-sm text-gray-600">완료 세션</p>
+    </div>
+    <div class="bg-yellow-50 rounded-lg p-4 text-center">
+      <p class="text-3xl font-bold text-yellow-600"><%= data["questions_count"] || 0 %></p>
+      <p class="text-sm text-gray-600">생성 발문</p>
+    </div>
+  </div>
+
+  <%# 블룸 분포 %>
+  <% if data["bloom_distribution"].present? %>
+    <section class="mb-8">
+      <h2 class="text-xl font-semibold mb-4">블룸 분포</h2>
+      <div class="bg-white border rounded-lg p-4">
+        <% bloom_labels = { "remember" => "기억", "understand" => "이해", "apply" => "적용", "analyze" => "분석", "evaluate" => "평가", "create_level" => "창조" } %>
+        <% max_count = [data["bloom_distribution"].values.map(&:to_i).max || 1, 1].max %>
+        <div class="space-y-3">
+          <% bloom_labels.each do |level, label| %>
+            <% count = data["bloom_distribution"][level] || 0 %>
+            <div class="flex items-center">
+              <span class="w-16 text-sm text-gray-600"><%= label %></span>
+              <div class="flex-1 mx-3">
+                <div class="bg-gray-200 rounded-full h-6">
+                  <div class="bg-purple-500 rounded-full h-6 flex items-center justify-end pr-2"
+                       style="width: <%= [(count.to_f / max_count * 100).round, 5].max %>%">
+                    <span class="text-xs text-white font-medium"><%= count %></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </section>
+  <% end %>
+
+  <%# 역량 점수 %>
+  <% if data["competency_averages"].present? && data["competency_averages"].any? %>
+    <section class="mb-8">
+      <h2 class="text-xl font-semibold mb-4">역량 점수</h2>
+      <% competency_labels = { "comprehension" => "이해력", "aesthetic" => "심미적 감수성", "communication" => "의사소통 능력" } %>
+      <div class="grid grid-cols-3 gap-4">
+        <% competency_labels.each do |key, label| %>
+          <div class="bg-white border rounded-lg p-4 text-center">
+            <p class="text-2xl font-bold text-blue-600"><%= data["competency_averages"][key] || "-" %></p>
+            <p class="text-sm text-gray-600 mt-1"><%= label %></p>
+          </div>
+        <% end %>
+      </div>
+    </section>
+  <% end %>
+
+  <%= link_to "보고서 목록", diagnosis_admin_reports_path, class: "text-gray-600" %>
+</div>
