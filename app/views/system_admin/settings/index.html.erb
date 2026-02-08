@@ -1,0 +1,26 @@
+<div class="max-w-3xl mx-auto p-6">
+  <h1 class="text-2xl font-bold mb-6">시스템 설정</h1>
+
+  <% if @settings.empty? %>
+    <p class="text-gray-500">등록된 설정이 없습니다.</p>
+  <% else %>
+    <div class="bg-white rounded-lg shadow divide-y">
+      <% @settings.each do |setting| %>
+        <div class="p-4">
+          <%= form_with(model: [:system_admin, setting], method: :patch, class: "flex items-center gap-4") do |f| %>
+            <div class="flex-1">
+              <p class="font-medium text-sm"><%= setting.key %></p>
+              <% if setting.description.present? %>
+                <p class="text-xs text-gray-500"><%= setting.description %></p>
+              <% end %>
+            </div>
+            <div class="flex items-center gap-2">
+              <%= f.text_field :value, class: "border rounded px-3 py-1 text-sm w-40" %>
+              <%= f.submit "저장", class: "bg-blue-600 text-white px-3 py-1 rounded text-sm cursor-pointer" %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>
