@@ -103,6 +103,27 @@ Passage.all.each_with_index do |passage, i|
   end
 end
 
+puts "Creating diagnosis admin..."
+diagnosis_admin = User.find_or_create_by!(email: "diagnosis@thinkup.kr") do |u|
+  u.name = "진단관리자"
+  u.password = "password123"
+  u.role = :diagnosis_admin
+end
+
+puts "Creating announcements..."
+Announcement.find_or_create_by!(title: "ThinkUp 서비스 오픈 안내") do |a|
+  a.content = "ThinkUp 서비스가 정식 오픈되었습니다. 블룸의 택소노미를 기반으로 한 발문 생성 훈련을 시작해보세요!"
+  a.user = diagnosis_admin
+  a.published_at = Time.current
+end
+
+Announcement.find_or_create_by!(title: "2026년 1학기 프로그램 안내") do |a|
+  a.content = "2026년 1학기 사고력 증진 프로그램이 시작됩니다. 학교 담당자는 학생 계정을 생성하고 프로그램에 참여시켜 주세요."
+  a.user = diagnosis_admin
+  a.published_at = Time.current
+end
+
 puts "Seed complete!"
 puts "Users: #{User.count}, Schools: #{School.count}, Programs: #{Program.count}"
 puts "Enrollments: #{SchoolEnrollment.count}, Parent-Student: #{ParentStudent.count}"
+puts "Announcements: #{Announcement.count}"

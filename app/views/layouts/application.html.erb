@@ -35,6 +35,12 @@
             <%= link_to "프로그램", school_admin_programs_path, class: "text-sm text-gray-600" %>
           <% elsif current_user.parent? %>
             <%= link_to "자녀 현황", parent_children_path, class: "text-sm text-gray-600" %>
+          <% elsif current_user.diagnosis_admin? %>
+            <%= link_to "대시보드", diagnosis_admin_dashboard_path, class: "text-sm text-gray-600" %>
+            <%= link_to "학교", diagnosis_admin_schools_path, class: "text-sm text-gray-600" %>
+            <%= link_to "프로그램", diagnosis_admin_programs_path, class: "text-sm text-gray-600" %>
+            <%= link_to "보고서", diagnosis_admin_reports_path, class: "text-sm text-gray-600" %>
+            <%= link_to "공지", diagnosis_admin_announcements_path, class: "text-sm text-gray-600" %>
           <% elsif current_user.developer? %>
             <%= link_to "지문 관리", developer_passages_path, class: "text-sm text-gray-600" %>
           <% end %>
