@@ -123,7 +123,23 @@ Announcement.find_or_create_by!(title: "2026년 1학기 프로그램 안내") do
   a.published_at = Time.current
 end
 
+puts "Creating system settings..."
+SystemSetting.find_or_create_by!(key: "max_sessions_per_day") do |s|
+  s.value = "10"
+  s.description = "학생 1일 최대 학습 세션 수"
+end
+
+SystemSetting.find_or_create_by!(key: "ai_enabled") do |s|
+  s.value = "true"
+  s.description = "AI 심화 대화 활성화 여부"
+end
+
+SystemSetting.find_or_create_by!(key: "free_passage_enabled") do |s|
+  s.value = "true"
+  s.description = "자유 지문 입력 모드 활성화 여부"
+end
+
 puts "Seed complete!"
 puts "Users: #{User.count}, Schools: #{School.count}, Programs: #{Program.count}"
 puts "Enrollments: #{SchoolEnrollment.count}, Parent-Student: #{ParentStudent.count}"
-puts "Announcements: #{Announcement.count}"
+puts "Announcements: #{Announcement.count}, Settings: #{SystemSetting.count}"
