@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_07_231919) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_08_031644) do
   create_table "ai_dialogues", force: :cascade do |t|
     t.text "content", null: false
     t.datetime "created_at", null: false
@@ -19,6 +19,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_07_231919) do
     t.integer "student_question_id", null: false
     t.datetime "updated_at", null: false
     t.index ["student_question_id"], name: "index_ai_dialogues_on_student_question_id"
+  end
+
+  create_table "announcements", force: :cascade do |t|
+    t.text "content", null: false
+    t.datetime "created_at", null: false
+    t.datetime "published_at"
+    t.string "title", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["user_id"], name: "index_announcements_on_user_id"
   end
 
   create_table "base_questions", force: :cascade do |t|
@@ -170,6 +180,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_07_231919) do
   end
 
   add_foreign_key "ai_dialogues", "student_questions"
+  add_foreign_key "announcements", "users"
   add_foreign_key "base_questions", "passages"
   add_foreign_key "learning_sessions", "passages"
   add_foreign_key "learning_sessions", "users"
